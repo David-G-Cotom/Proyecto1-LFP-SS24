@@ -10,4 +10,16 @@ package backend.html.model;
  */
 public enum AlfabetoEnum {
     
+    NUMERO,
+    LETRA,
+    DIAGONAL,
+    IGUAL,
+    MAYOR_QUE,
+    MENOR_QUE,
+    COMILLA_DOBLE,
+    SIMBOLO_VARIO,
+    NUEVA_LINEA,
+    ESPACIO,
+    ERROR;
+    
 }

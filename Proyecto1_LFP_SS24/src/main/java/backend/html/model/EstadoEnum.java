@@ -10,4 +10,16 @@ package backend.html.model;
  */
 public enum EstadoEnum {
     
+    S0,//Estado Inicial
+    S1,
+    S2,
+    S3,
+    S4,
+    S5,
+    S6,
+    S7,
+    S8,
+    SF,//Estado de Aceptacion/Finalizacion
+    SE;//Estado de Error
+    
 }
