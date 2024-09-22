@@ -6,6 +6,7 @@ package backend.html.controller;
 
 import backend.html.model.AlfabetoEnum;
 import backend.html.model.EstadoEnum;
+import java.util.Arrays;
 
 /**
  *
@@ -17,7 +18,7 @@ public class ControladorFunsionTransicion {
     private final EstadoEnum ESTADO_INICIAL = EstadoEnum.S0;
     
     public ControladorFunsionTransicion() {
-        this.matrizEstados = new EstadoEnum[EstadoEnum.values().length -2][AlfabetoEnum.values().length];
+        this.matrizEstados = new EstadoEnum[EstadoEnum.values().length - 2][AlfabetoEnum.values().length];
         
         this.matrizEstados[EstadoEnum.S0.ordinal()][AlfabetoEnum.LETRA.ordinal()] = EstadoEnum.S5;
         this.matrizEstados[EstadoEnum.S0.ordinal()][AlfabetoEnum.DIAGONAL.ordinal()] = EstadoEnum.S3;
@@ -46,9 +47,10 @@ public class ControladorFunsionTransicion {
             if (i == AlfabetoEnum.ERROR.ordinal()) {
                 continue;
             } else if (i == AlfabetoEnum.DIAGONAL.ordinal()) {
-                this.matrizEstados[EstadoEnum.S2.ordinal()][i] = EstadoEnum.S4;
+                this.matrizEstados[EstadoEnum.S3.ordinal()][i] = EstadoEnum.S4;
+                continue;
             }
-            this.matrizEstados[EstadoEnum.S2.ordinal()][i] = EstadoEnum.SF;
+            this.matrizEstados[EstadoEnum.S3.ordinal()][i] = EstadoEnum.SF;
         }
         
         for (int i = 0; i < this.matrizEstados[EstadoEnum.S4.ordinal()].length; i++) {
@@ -56,6 +58,7 @@ public class ControladorFunsionTransicion {
                 continue;
             } else if (i == AlfabetoEnum.NUEVA_LINEA.ordinal()) {
                 this.matrizEstados[EstadoEnum.S4.ordinal()][i] = EstadoEnum.SF;
+                continue;
             }
             this.matrizEstados[EstadoEnum.S4.ordinal()][i] = EstadoEnum.S4;
         }
@@ -65,8 +68,10 @@ public class ControladorFunsionTransicion {
                 continue;
             } else if (i == AlfabetoEnum.NUMERO.ordinal()) {
                 this.matrizEstados[EstadoEnum.S5.ordinal()][i] = EstadoEnum.S6;
+                continue;
             } else if (i == AlfabetoEnum.LETRA.ordinal()) {
                 this.matrizEstados[EstadoEnum.S5.ordinal()][i] = EstadoEnum.S5;
+                continue;
             }
             this.matrizEstados[EstadoEnum.S5.ordinal()][i] = EstadoEnum.SF;
         }
@@ -90,9 +95,17 @@ public class ControladorFunsionTransicion {
             if ((i == AlfabetoEnum.ERROR.ordinal()) || (i == AlfabetoEnum.NUEVA_LINEA.ordinal())) {
                 continue;
             } else if (i == AlfabetoEnum.COMILLA_DOBLE.ordinal()) {
-                this.matrizEstados[EstadoEnum.S8.ordinal()][i] = EstadoEnum.SF;
+                this.matrizEstados[EstadoEnum.S8.ordinal()][i] = EstadoEnum.S9;
+                continue;
             }
             this.matrizEstados[EstadoEnum.S8.ordinal()][i] = EstadoEnum.S8;
+        }
+        
+        for (int i = 0; i < this.matrizEstados[EstadoEnum.S9.ordinal()].length; i++) {
+            if (i == AlfabetoEnum.ERROR.ordinal()) {
+                continue;
+            }
+            this.matrizEstados[EstadoEnum.S9.ordinal()][i] = EstadoEnum.SF;
         }
         
         for (EstadoEnum[] arregloEstado : this.matrizEstados) {
@@ -102,6 +115,12 @@ public class ControladorFunsionTransicion {
                 }
             }
         }
+        /*for (int i = 0; i < this.matrizEstados.length; i++) {
+            for (int j = 0; j < this.matrizEstados[0].length; j++) {
+                System.out.print(this.matrizEstados[i][j].toString() + " ");
+            }
+            System.out.println("");
+        }*/
         
     }
     

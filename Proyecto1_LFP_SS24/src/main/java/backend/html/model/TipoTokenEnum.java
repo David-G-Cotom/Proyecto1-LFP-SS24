@@ -25,7 +25,6 @@ public enum TipoTokenEnum {
     ETIQUETA_CONTENEDOR("div"),
     ETIQUETA_SECCION("section"),
     ETIQUETA_ARTICULO("article"),
-    ETIQUETA_TITULO_ENCABEZADO("title"),
     ETIQUETA_TITULO(""),            // h#
     ETIQUETA_PARRAFO("p"),
     ETIQUETA_SPAN("span"),

@@ -10,24 +10,24 @@ package backend.html.model;
  */
 public class Token {
     
-    private TipoTokenEnum tipoToke;
+    private TipoTokenEnum tipoToken;
     private int linea;
     private int columna;
     private String lexema;
 
     public Token(TipoTokenEnum tipoToke, int linea, int columna, String lexema) {
-        this.tipoToke = tipoToke;
+        this.tipoToken = tipoToke;
         this.linea = linea;
         this.columna = columna;
         this.lexema = lexema;
     }
 
-    public TipoTokenEnum getTipoToke() {
-        return tipoToke;
+    public TipoTokenEnum getTipoToken() {
+        return tipoToken;
     }
 
-    public void setTipoToke(TipoTokenEnum tipoToke) {
-        this.tipoToke = tipoToke;
+    public void setTipoToken(TipoTokenEnum tipoToken) {
+        this.tipoToken = tipoToken;
     }
 
     public int getLinea() {
@@ -56,7 +56,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token{" + "tipoToke=" + tipoToke + ", linea=" + linea + ", columna=" + columna + ", lexema=" + lexema + '}';
+        return "Token{" + "tipoToke = " + tipoToken + ", linea = " + linea + ", columna = " + columna + ", lexema = " + lexema + ", traduccion = " + tipoToken.getTraduccion() + '}';
     }
     
 }

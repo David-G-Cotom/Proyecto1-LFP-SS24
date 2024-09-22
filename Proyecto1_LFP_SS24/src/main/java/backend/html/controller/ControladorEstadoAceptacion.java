@@ -26,7 +26,7 @@ public class ControladorEstadoAceptacion {
         this.mapaEstadoAceptacion.put(EstadoEnum.S5, TipoTokenEnum.ETIQUETA_RESERVADA);
         this.mapaEstadoAceptacion.put(EstadoEnum.S6, TipoTokenEnum.ETIQUETA_TITULO);
         this.mapaEstadoAceptacion.put(EstadoEnum.S7, TipoTokenEnum.PALABRA_RESERVADA_IGUAL);
-        this.mapaEstadoAceptacion.put(EstadoEnum.S8, TipoTokenEnum.CADENA);
+        this.mapaEstadoAceptacion.put(EstadoEnum.S9, TipoTokenEnum.CADENA);
     }
     
     public TipoTokenEnum getTipoToken(EstadoEnum estadoActual) {

@@ -80,12 +80,16 @@ public class AnalizadorLexico {
         int columnaInicial = this.columna;
         do {
             estadoActual = estadoTemporal;
+            //System.out.println("Estado Actual: " + estadoActual);
             charActual = this.contenido.charAt(this.posicionContenido);
+            //System.out.println("Caracter Actual: " + charActual);
             if (charActual == '\r') {
                 break;
             }
             alfabetoSimbolo = this.alfabetoController.getAlfabeto(charActual);
+            //System.out.println("Alfabeto Simbolo: " + alfabetoSimbolo);
             estadoTemporal = this.funsionTransicion.produccion(estadoActual, alfabetoSimbolo);
+            //System.out.println("Estado Temporal: " + estadoTemporal);
             if (estadoTemporal.equals(EstadoEnum.SF)) {
                 break;
             }
@@ -110,6 +114,15 @@ public class AnalizadorLexico {
         }
         if (this.revisarEtiquetaTitulo(this.palabraTemporal.toString()) != null) {
             return new Token(revisarEtiquetaTitulo(this.palabraTemporal.toString()), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+        }
+        if (((this.palabraTemporal.length() == 1) && (this.posicionContenido == this.contenido.length()))
+                || (estadoTemporal == EstadoEnum.S1) || (estadoTemporal == EstadoEnum.S2)
+                || (estadoTemporal == EstadoEnum.S3) || (estadoTemporal == EstadoEnum.S7)
+                || (estadoTemporal == EstadoEnum.S9)) {
+            return new Token(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+        }
+        if (estadoTemporal == EstadoEnum.S6 || estadoActual == EstadoEnum.S6) {
+            return new Token(TipoTokenEnum.ERROR, lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
         return new Token(this.estadoAceptacion.getTipoToken(estadoActual), lineaInicial, columnaInicial, this.palabraTemporal.toString());
     }
@@ -150,8 +163,6 @@ public class AnalizadorLexico {
                 return TipoTokenEnum.ETIQUETA_SECCION;
             case "articulo":
                 return TipoTokenEnum.ETIQUETA_ARTICULO;
-            case "titulo":
-                return TipoTokenEnum.ETIQUETA_TITULO_ENCABEZADO;
             case "parrafo":
                 return TipoTokenEnum.ETIQUETA_PARRAFO;
             case "span":
@@ -166,7 +177,7 @@ public class AnalizadorLexico {
                 return TipoTokenEnum.ETIQUETA_AREA;
             case "boton":
                 return TipoTokenEnum.ETIQUETA_BOTON;
-            case "pipagina":
+            case "piepagina":
                 return TipoTokenEnum.ETIQUETA_PIE_PAGINA;
             default:
                 return null;
@@ -175,9 +186,9 @@ public class AnalizadorLexico {
     
     private TipoTokenEnum revisarEtiquetaTitulo(String palabra) {
         for (int i = 0; i < 6; i++) {
-            if (palabra.equals("titulo" + i)) {
+            if (palabra.equals("titulo" + (i + 1))) {
                 TipoTokenEnum tokenTitulo = TipoTokenEnum.ETIQUETA_TITULO;
-                tokenTitulo.setTraduccion("h" + i);
+                tokenTitulo.setTraduccion("h" + (i + 1));
                 return tokenTitulo;
             }
         }
