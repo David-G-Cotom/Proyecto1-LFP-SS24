@@ -20,6 +20,9 @@ public enum EstadoEnum {
     S7,
     S8,
     S9,
+    S10,
+    S11,
+    S12,
     SF,//Estado de Aceptacion/Finalizacion
     SE;//Estado de Error
     

@@ -6,7 +6,6 @@ package backend.html.controller;
 
 import backend.html.model.AlfabetoEnum;
 import backend.html.model.EstadoEnum;
-import java.util.Arrays;
 
 /**
  *
@@ -106,6 +105,43 @@ public class ControladorFunsionTransicion {
                 continue;
             }
             this.matrizEstados[EstadoEnum.S9.ordinal()][i] = EstadoEnum.SF;
+        }
+        
+        this.matrizEstados[EstadoEnum.S10.ordinal()][AlfabetoEnum.DIAGONAL.ordinal()] = EstadoEnum.S11;
+        this.matrizEstados[EstadoEnum.S10.ordinal()][AlfabetoEnum.MENOR_QUE.ordinal()] = EstadoEnum.SF;
+        this.matrizEstados[EstadoEnum.S10.ordinal()][AlfabetoEnum.NUEVA_LINEA.ordinal()] = EstadoEnum.S10;
+        this.matrizEstados[EstadoEnum.S10.ordinal()][AlfabetoEnum.ESPACIO.ordinal()] = EstadoEnum.S10;
+        this.matrizEstados[EstadoEnum.S10.ordinal()][AlfabetoEnum.ERROR.ordinal()] = EstadoEnum.SE;
+        for (int i = 0; i < this.matrizEstados[EstadoEnum.S10.ordinal()].length; i++) {
+            if (this.matrizEstados[EstadoEnum.S10.ordinal()][i] == null) {
+                this.matrizEstados[EstadoEnum.S10.ordinal()][i] = EstadoEnum.S12;
+            }
+        }
+        
+        for (int i = 0; i < this.matrizEstados[EstadoEnum.S11.ordinal()].length; i++) {
+            if (i == AlfabetoEnum.ERROR.ordinal()) {
+                continue;
+            } else if (i == AlfabetoEnum.DIAGONAL.ordinal()) {
+                this.matrizEstados[EstadoEnum.S11.ordinal()][i] = EstadoEnum.SF;
+                continue;
+            } else if (i == AlfabetoEnum.MENOR_QUE.ordinal()) {
+                this.matrizEstados[EstadoEnum.S11.ordinal()][i] = EstadoEnum.SF;
+                continue;
+            }
+            this.matrizEstados[EstadoEnum.S11.ordinal()][i] = EstadoEnum.S12;
+        }
+        
+        for (int i = 0; i < this.matrizEstados[EstadoEnum.S12.ordinal()].length; i++) {
+            if (i == AlfabetoEnum.ERROR.ordinal()) {
+                continue;
+            } else if (i == AlfabetoEnum.DIAGONAL.ordinal()) {
+                this.matrizEstados[EstadoEnum.S12.ordinal()][i] = EstadoEnum.S11;
+                continue;
+            } else if (i == AlfabetoEnum.MENOR_QUE.ordinal()) {
+                this.matrizEstados[EstadoEnum.S12.ordinal()][i] = EstadoEnum.SF;
+                continue;
+            }
+            this.matrizEstados[EstadoEnum.S12.ordinal()][i] = EstadoEnum.S12;
         }
         
         for (EstadoEnum[] arregloEstado : this.matrizEstados) {

@@ -23,10 +23,11 @@ public class ControladorEstadoAceptacion {
         this.mapaEstadoAceptacion.put(EstadoEnum.S2, TipoTokenEnum.CIERRE);
         this.mapaEstadoAceptacion.put(EstadoEnum.S3, TipoTokenEnum.DIAGONAL);
         this.mapaEstadoAceptacion.put(EstadoEnum.S4, TipoTokenEnum.COMENTARIO);
-        this.mapaEstadoAceptacion.put(EstadoEnum.S5, TipoTokenEnum.ETIQUETA_RESERVADA);
-        this.mapaEstadoAceptacion.put(EstadoEnum.S6, TipoTokenEnum.ETIQUETA_TITULO);
         this.mapaEstadoAceptacion.put(EstadoEnum.S7, TipoTokenEnum.PALABRA_RESERVADA_IGUAL);
         this.mapaEstadoAceptacion.put(EstadoEnum.S9, TipoTokenEnum.CADENA);
+        this.mapaEstadoAceptacion.put(EstadoEnum.S10, TipoTokenEnum.TEXTO);
+        this.mapaEstadoAceptacion.put(EstadoEnum.S11, TipoTokenEnum.TEXTO);
+        this.mapaEstadoAceptacion.put(EstadoEnum.S12, TipoTokenEnum.TEXTO);
     }
     
     public TipoTokenEnum getTipoToken(EstadoEnum estadoActual) {

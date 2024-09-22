@@ -36,7 +36,7 @@ public class ControladorAlfabeto {
             return AlfabetoEnum.MAYOR_QUE;
         } else if (charAt == '"') {
             return AlfabetoEnum.COMILLA_DOBLE;
-        } else if ((valor >= 32) && (valor <= 126)) {
+        } else if (((valor >= 32) && (valor <= 126)) || ((valor >= 128) && (valor <= 255))) {
             return AlfabetoEnum.SIMBOLO_VARIO;
         } else if ((charAt == '\n')) {
             return AlfabetoEnum.NUEVA_LINEA;

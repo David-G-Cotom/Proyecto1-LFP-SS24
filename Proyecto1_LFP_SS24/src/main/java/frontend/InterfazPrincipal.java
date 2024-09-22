@@ -19,7 +19,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
 
-    private final ArrayList<Token> tokensHTML;
+    private ArrayList<Token> tokensHTML;
     private final AnalizadorLexico analizadorHTML;
     
     /**
@@ -150,17 +150,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (!this.tokensHTML.isEmpty()) {
             this.tokensHTML.clear();
         }
-        this.analizadorHTML.leerArchivo(this.txaCodigo.getText());
-        try {
-            while (!this.analizadorHTML.isFinArchivo()) {
-                Token token = this.analizadorHTML.getToken();
-                this.tokensHTML.add(token);
-                System.out.println(token);
-            }
-        } catch (IOException e) {
-            System.out.println("----------------ERROR---------------------");
-        }
-        System.out.println();
+        this.tokensHTML = this.analizadorHTML.getTokens(this.txaCodigo.getText());
     }//GEN-LAST:event_btnTraducirActionPerformed
 
     
