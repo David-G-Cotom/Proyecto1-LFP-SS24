@@ -10,4 +10,16 @@ package backend.css.model;
  */
 public enum TipoTokenEnum {
     
+    UNIVERSAL,
+    ETIQUETA_TIPO,
+    CLASE,
+    ID,
+    CONBINADOR,
+    REGLA,
+    OTROS,
+    CADENA,
+    COLOR,
+    IDENTIFICADOR,
+    ERROR;
+    
 }

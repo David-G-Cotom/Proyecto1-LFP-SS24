@@ -10,4 +10,23 @@ package backend.css.model;
  */
 public enum AlfabetoEnum {
     
+    NUMERO,
+    LETRA,
+    ASTERISCO,
+    PUNTO,
+    GUION_MEDIO,
+    NUMERAL,
+    CONBINADORES,   // > + ~
+    PORCENTAJE,
+    DOS_PUNTOS,
+    PUNTO_COMA,
+    COMA,
+    COMILLA_SIMPLE,
+    CORCHETES,
+    PARENTESIS,
+    SIMBOLO_VARIO,
+    NUEVA_LINEA,
+    ESPACIO,
+    ERROR;
+    
 }
