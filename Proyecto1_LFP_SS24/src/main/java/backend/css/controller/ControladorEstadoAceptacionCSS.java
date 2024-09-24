@@ -30,6 +30,7 @@ public class ControladorEstadoAceptacionCSS {
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S39, TipoTokenEnumCSS.DECIMAL);
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S42, TipoTokenEnumCSS.COMENTARIO);
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S44, TipoTokenEnumCSS.CADENA);
+        this.mapaEstadoAceptacion.put(EstadoEnumCSS.SE, TipoTokenEnumCSS.ERROR);
     }
     
     public TipoTokenEnumCSS getTipoToken(EstadoEnumCSS estadoActual) {

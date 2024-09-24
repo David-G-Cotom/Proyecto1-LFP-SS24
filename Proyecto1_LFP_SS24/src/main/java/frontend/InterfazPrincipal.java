@@ -8,6 +8,8 @@ import backend.html.model.AnalizadorLexicoHTML;
 import backend.html.model.TokenHTML;
 import backend.css.model.AnalizadorLexicoCSS;
 import backend.css.model.TokenCSS;
+import backend.js.model.AnalizadorLexicoJS;
+import backend.js.model.TokenJS;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,6 +27,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private final AnalizadorLexicoHTML analizadorHTML;
     private ArrayList<TokenCSS> tokensCSS;
     private final AnalizadorLexicoCSS analizadorCSS;
+    private ArrayList<TokenJS> tokensJS;
+    private final AnalizadorLexicoJS analizadorJS;
     
     /**
      * Creates new form InterfazPrincipal
@@ -35,6 +39,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         this.tokensHTML = new ArrayList<>();
         this.analizadorCSS = new AnalizadorLexicoCSS();
         this.tokensCSS = new ArrayList<>();
+        this.analizadorJS = new AnalizadorLexicoJS();
+        this.tokensJS = new ArrayList<>();
     }
 
     /**
@@ -157,10 +163,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             this.tokensHTML.clear();
         }
         this.tokensHTML = this.analizadorHTML.getTokens(this.txaCodigo.getText());*/
-        if (!this.tokensCSS.isEmpty()) {
+        /*if (!this.tokensCSS.isEmpty()) {
             this.tokensCSS.clear();
         }
-        this.tokensCSS = this.analizadorCSS.getTokens(this.txaCodigo.getText());
+        this.tokensCSS = this.analizadorCSS.getTokens(this.txaCodigo.getText());*/
+        if (!this.tokensJS.isEmpty()) {
+            this.tokensJS.clear();
+        }
+        this.tokensJS = this.analizadorJS.getTokens(this.txaCodigo.getText());
     }//GEN-LAST:event_btnTraducirActionPerformed
 
     

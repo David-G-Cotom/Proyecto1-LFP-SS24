@@ -83,16 +83,16 @@ public class AnalizadorLexicoCSS {
         int columnaInicial = this.columna;
         do {
             estadoActual = estadoTemporal;
-            System.out.println("Estado Actual: " + estadoActual);
+            //System.out.println("Estado Actual: " + estadoActual);
             charActual = contenido.charAt(this.posicionContenido);
-            System.out.println("Caracter Actual: " + charActual);
+            //System.out.println("Caracter Actual: " + charActual);
             if (charActual == '\r') {
                 break;
             }
             alfabetoSimbolo = this.alfabetoController.getAlfabeto(charActual);
-            System.out.println("Alfabeto Simbolo: " + alfabetoSimbolo);
+            //System.out.println("Alfabeto Simbolo: " + alfabetoSimbolo);
             estadoTemporal = this.funsionTransicion.produccion(estadoActual, alfabetoSimbolo);
-            System.out.println("Estado Temporal: " + estadoTemporal);
+            //System.out.println("Estado Temporal: " + estadoTemporal);
             if (estadoTemporal.equals(EstadoEnumCSS.SF)) {
                 break;
             }

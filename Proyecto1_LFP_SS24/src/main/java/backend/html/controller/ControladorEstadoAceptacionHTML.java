@@ -28,6 +28,7 @@ public class ControladorEstadoAceptacionHTML {
         this.mapaEstadoAceptacion.put(EstadoEnumHTML.S10, TipoTokenEnumHTML.TEXTO);
         this.mapaEstadoAceptacion.put(EstadoEnumHTML.S11, TipoTokenEnumHTML.TEXTO);
         this.mapaEstadoAceptacion.put(EstadoEnumHTML.S12, TipoTokenEnumHTML.TEXTO);
+        this.mapaEstadoAceptacion.put(EstadoEnumHTML.SE, TipoTokenEnumHTML.ERROR);
     }
     
     public TipoTokenEnumHTML getTipoToken(EstadoEnumHTML estadoActual) {

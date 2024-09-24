@@ -10,4 +10,32 @@ package backend.js.model;
  */
 public enum AlfabetoEnumJS {
     
+    LETRA,
+    NUMERO,
+    GUION_BAJO,
+    SUMA,
+    RESTA,
+    MULTIPLICACION,
+    IGUAL,
+    MENOR_QUE,
+    MAYOR_QUE,
+    EXCLAMACION,
+    RAYA,
+    AMPER,
+    PUNTO,
+    COMILLA_DOBLE,
+    COMILLA_SIMPLE,
+    ACENTO,
+    PARENTESIS,
+    CORCHETE,
+    LLAVE,
+    PUNTO_COMA,
+    COMA,
+    DOS_PUNTOS,
+    DIAGONAL,
+    SIMBOLO_VARIO,
+    NUEVA_LINEA,
+    ESPACIO,
+    ERROR;
+    
 }
