@@ -4,13 +4,13 @@
  */
 package backend.html.controller;
 
-import backend.html.model.AlfabetoEnum;
+import backend.html.model.AlfabetoEnumHTML;
 
 /**
  *
  * @author Carlos Cotom
  */
-public class ControladorAlfabeto {
+public class ControladorAlfabetoHTML {
     
     public boolean isEspacioBlanco(char charAt) {
         return Character.isWhitespace(charAt);
@@ -20,30 +20,30 @@ public class ControladorAlfabeto {
         return (charAt == '\n');
     }
     
-    public AlfabetoEnum getAlfabeto(char charAt) {
+    public AlfabetoEnumHTML getAlfabeto(char charAt) {
         int valor = charAt;
         if (((valor >= 65) && (valor <= 90)) || ((valor >= 97) && (valor <= 122))) {
-            return AlfabetoEnum.LETRA;
+            return AlfabetoEnumHTML.LETRA;
         } else if ((valor >= 48) && (valor <= 57)) {
-            return AlfabetoEnum.NUMERO;
+            return AlfabetoEnumHTML.NUMERO;
         } else if (valor == '/') {
-            return AlfabetoEnum.DIAGONAL;
+            return AlfabetoEnumHTML.DIAGONAL;
         } else if (charAt == '=') {
-            return AlfabetoEnum.IGUAL;
+            return AlfabetoEnumHTML.IGUAL;
         } else if (charAt == '<') {
-            return AlfabetoEnum.MENOR_QUE;
+            return AlfabetoEnumHTML.MENOR_QUE;
         } else if (charAt == '>') {
-            return AlfabetoEnum.MAYOR_QUE;
+            return AlfabetoEnumHTML.MAYOR_QUE;
         } else if (charAt == '"') {
-            return AlfabetoEnum.COMILLA_DOBLE;
+            return AlfabetoEnumHTML.COMILLA_DOBLE;
         } else if (((valor >= 32) && (valor <= 126)) || ((valor >= 128) && (valor <= 255))) {
-            return AlfabetoEnum.SIMBOLO_VARIO;
+            return AlfabetoEnumHTML.SIMBOLO_VARIO;
         } else if ((charAt == '\n')) {
-            return AlfabetoEnum.NUEVA_LINEA;
+            return AlfabetoEnumHTML.NUEVA_LINEA;
         } else if ((valor == 32) || (charAt == ' ')) {
-            return AlfabetoEnum.ESPACIO;
+            return AlfabetoEnumHTML.ESPACIO;
         } else {
-            return AlfabetoEnum.ERROR;            
+            return AlfabetoEnumHTML.ERROR;            
         }
     }
     

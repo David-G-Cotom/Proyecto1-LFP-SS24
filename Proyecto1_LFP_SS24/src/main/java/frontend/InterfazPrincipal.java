@@ -4,8 +4,10 @@
  */
 package frontend;
 
-import backend.html.model.AnalizadorLexico;
-import backend.html.model.Token;
+import backend.html.model.AnalizadorLexicoHTML;
+import backend.html.model.TokenHTML;
+import backend.css.model.AnalizadorLexicoCSS;
+import backend.css.model.TokenCSS;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,16 +21,20 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
 
-    private ArrayList<Token> tokensHTML;
-    private final AnalizadorLexico analizadorHTML;
+    private ArrayList<TokenHTML> tokensHTML;
+    private final AnalizadorLexicoHTML analizadorHTML;
+    private ArrayList<TokenCSS> tokensCSS;
+    private final AnalizadorLexicoCSS analizadorCSS;
     
     /**
      * Creates new form InterfazPrincipal
      */
     public InterfazPrincipal() {
         initComponents();
-        this.analizadorHTML = new AnalizadorLexico();
+        this.analizadorHTML = new AnalizadorLexicoHTML();
         this.tokensHTML = new ArrayList<>();
+        this.analizadorCSS = new AnalizadorLexicoCSS();
+        this.tokensCSS = new ArrayList<>();
     }
 
     /**
@@ -147,10 +153,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCargaActionPerformed
 
     private void btnTraducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraducirActionPerformed
-        if (!this.tokensHTML.isEmpty()) {
+        /*if (!this.tokensHTML.isEmpty()) {
             this.tokensHTML.clear();
         }
-        this.tokensHTML = this.analizadorHTML.getTokens(this.txaCodigo.getText());
+        this.tokensHTML = this.analizadorHTML.getTokens(this.txaCodigo.getText());*/
+        if (!this.tokensCSS.isEmpty()) {
+            this.tokensCSS.clear();
+        }
+        this.tokensCSS = this.analizadorCSS.getTokens(this.txaCodigo.getText());
     }//GEN-LAST:event_btnTraducirActionPerformed
 
     

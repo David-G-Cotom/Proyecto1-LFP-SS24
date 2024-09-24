@@ -8,7 +8,7 @@ package backend.css.model;
  *
  * @author Carlos Cotom
  */
-public enum TipoTokenEnum {
+public enum TipoTokenEnumCSS {
     
     UNIVERSAL,
     ETIQUETA_TIPO,
@@ -20,6 +20,9 @@ public enum TipoTokenEnum {
     CADENA,
     COLOR,
     IDENTIFICADOR,
+    COMENTARIO,
+    ENTERO,
+    DECIMAL,
     ERROR;
     
 }

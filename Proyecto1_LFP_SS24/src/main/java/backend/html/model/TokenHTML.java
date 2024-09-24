@@ -8,25 +8,25 @@ package backend.html.model;
  *
  * @author Carlos Cotom
  */
-public class Token {
+public class TokenHTML {
     
-    private TipoTokenEnum tipoToken;
+    private TipoTokenEnumHTML tipoToken;
     private int linea;
     private int columna;
     private String lexema;
 
-    public Token(TipoTokenEnum tipoToke, int linea, int columna, String lexema) {
+    public TokenHTML(TipoTokenEnumHTML tipoToke, int linea, int columna, String lexema) {
         this.tipoToken = tipoToke;
         this.linea = linea;
         this.columna = columna;
         this.lexema = lexema;
     }
 
-    public TipoTokenEnum getTipoToken() {
+    public TipoTokenEnumHTML getTipoToken() {
         return tipoToken;
     }
 
-    public void setTipoToken(TipoTokenEnum tipoToken) {
+    public void setTipoToken(TipoTokenEnumHTML tipoToken) {
         this.tipoToken = tipoToken;
     }
 

@@ -8,10 +8,11 @@ package backend.css.model;
  *
  * @author Carlos Cotom
  */
-public enum AlfabetoEnum {
+public enum AlfabetoEnumCSS {
     
     NUMERO,
-    LETRA,
+    LETRA_MAYUSCULA,
+    LETRA_MINUSCULA,
     ASTERISCO,
     PUNTO,
     GUION_MEDIO,
@@ -24,6 +25,8 @@ public enum AlfabetoEnum {
     COMILLA_SIMPLE,
     CORCHETES,
     PARENTESIS,
+    LLAVE,
+    DIAGONAL,
     SIMBOLO_VARIO,
     NUEVA_LINEA,
     ESPACIO,

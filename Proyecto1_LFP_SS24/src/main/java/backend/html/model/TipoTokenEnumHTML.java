@@ -8,7 +8,7 @@ package backend.html.model;
  *
  * @author Carlos Cotom
  */
-public enum TipoTokenEnum {
+public enum TipoTokenEnumHTML {
     
     APERTURA(""),
     DIAGONAL(""),
@@ -43,7 +43,7 @@ public enum TipoTokenEnum {
     
     private String traduccion;
 
-    private TipoTokenEnum(String traduccion) {
+    private TipoTokenEnumHTML(String traduccion) {
         this.traduccion = traduccion;
     }
 

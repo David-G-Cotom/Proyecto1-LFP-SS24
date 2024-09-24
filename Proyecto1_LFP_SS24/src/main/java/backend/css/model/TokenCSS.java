@@ -8,25 +8,25 @@ package backend.css.model;
  *
  * @author Carlos Cotom
  */
-public class Token {
+public class TokenCSS {
     
-    private TipoTokenEnum tipoToken;
+    private TipoTokenEnumCSS tipoToken;
     private int linea;
     private int columan;
     private String lexema;
 
-    public Token(TipoTokenEnum tipoToken, int linea, int columan, String lexema) {
+    public TokenCSS(TipoTokenEnumCSS tipoToken, int linea, int columan, String lexema) {
         this.tipoToken = tipoToken;
         this.linea = linea;
         this.columan = columan;
         this.lexema = lexema;
     }
 
-    public TipoTokenEnum getTipoToken() {
+    public TipoTokenEnumCSS getTipoToken() {
         return tipoToken;
     }
 
-    public void setTipoToken(TipoTokenEnum tipoToken) {
+    public void setTipoToken(TipoTokenEnumCSS tipoToken) {
         this.tipoToken = tipoToken;
     }
 

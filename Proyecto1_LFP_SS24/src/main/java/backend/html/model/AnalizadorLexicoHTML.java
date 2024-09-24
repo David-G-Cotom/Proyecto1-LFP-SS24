@@ -4,9 +4,9 @@
  */
 package backend.html.model;
 
-import backend.html.controller.ControladorAlfabeto;
-import backend.html.controller.ControladorEstadoAceptacion;
-import backend.html.controller.ControladorFunsionTransicion;
+import backend.html.controller.ControladorAlfabetoHTML;
+import backend.html.controller.ControladorEstadoAceptacionHTML;
+import backend.html.controller.ControladorFunsionTransicionHTML;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,25 +14,25 @@ import java.util.ArrayList;
  *
  * @author Carlos Cotom
  */
-public class AnalizadorLexico {
+public class AnalizadorLexicoHTML {
 
-    private final ControladorFunsionTransicion funsionTransicion;
+    private final ControladorFunsionTransicionHTML funsionTransicion;
     private int linea;
     private int columna;
     private int posicionContenido;
     private String contenido;
     private boolean isArchivoLeido;
-    private final ControladorAlfabeto alfabetoController;
+    private final ControladorAlfabetoHTML alfabetoController;
     private StringBuilder palabraTemporal;
-    private final ControladorEstadoAceptacion estadoAceptacion;
-    private ArrayList<Token> tokensAnalizados;
+    private final ControladorEstadoAceptacionHTML estadoAceptacion;
+    private ArrayList<TokenHTML> tokensAnalizados;
 
-    public AnalizadorLexico() {
-        this.funsionTransicion = new ControladorFunsionTransicion();
+    public AnalizadorLexicoHTML() {
+        this.funsionTransicion = new ControladorFunsionTransicionHTML();
         this.isArchivoLeido = false;
-        this.alfabetoController = new ControladorAlfabeto();
+        this.alfabetoController = new ControladorAlfabetoHTML();
         this.palabraTemporal = new StringBuilder();
-        this.estadoAceptacion = new ControladorEstadoAceptacion();
+        this.estadoAceptacion = new ControladorEstadoAceptacionHTML();
     }
 
     public void leerArchivo(String contenido) {
@@ -68,21 +68,21 @@ public class AnalizadorLexico {
         }
     }
 
-    public Token getToken() throws IOException {
+    public TokenHTML getToken() throws IOException {
         if (!isArchivoLeido) {
             throw new IOException();
         }
         this.ignorarEspaciosBlanco();
         this.palabraTemporal = new StringBuilder();
-        EstadoEnum estadoActual = this.funsionTransicion.getEstadoInicial();
+        EstadoEnumHTML estadoActual = this.funsionTransicion.getEstadoInicial();
         char charActual;
-        EstadoEnum estadoTemporal = estadoActual;
-        AlfabetoEnum alfabetoSimbolo;
+        EstadoEnumHTML estadoTemporal = estadoActual;
+        AlfabetoEnumHTML alfabetoSimbolo;
         int lineaInicial = this.linea;
         int columnaInicial = this.columna;
         do {
             if (!this.tokensAnalizados.isEmpty()) {
-                if (this.tokensAnalizados.get(this.tokensAnalizados.size() - 1).getTipoToken() == TipoTokenEnum.CIERRE) {
+                if (this.tokensAnalizados.get(this.tokensAnalizados.size() - 1).getTipoToken() == TipoTokenEnumHTML.CIERRE) {
                     return this.getTokenTexto();
                 }
             }
@@ -97,41 +97,41 @@ public class AnalizadorLexico {
             //System.out.println("Alfabeto Simbolo: " + alfabetoSimbolo);
             estadoTemporal = this.funsionTransicion.produccion(estadoActual, alfabetoSimbolo);
             //System.out.println("Estado Temporal: " + estadoTemporal);
-            if (estadoTemporal.equals(EstadoEnum.SF)) {
+            if (estadoTemporal.equals(EstadoEnumHTML.SF)) {
                 break;
             }
             this.columna++;
             this.posicionContenido++;
             this.palabraTemporal.append(charActual);
-            if (alfabetoSimbolo == AlfabetoEnum.NUEVA_LINEA) {
+            if (alfabetoSimbolo == AlfabetoEnumHTML.NUEVA_LINEA) {
                 this.linea++;
             }
-            if (estadoTemporal.equals(EstadoEnum.SE)) {
+            if (estadoTemporal.equals(EstadoEnumHTML.SE)) {
                 break;
             }
         } while (this.posicionContenido < this.contenido.length());
-        if (estadoTemporal.equals(EstadoEnum.SE)) {
+        if (estadoTemporal.equals(EstadoEnumHTML.SE)) {
             estadoActual = estadoTemporal;
         }
         if (this.revisarPalabraReservada(this.palabraTemporal.toString()) != null) {
-            return new Token(revisarPalabraReservada(this.palabraTemporal.toString()), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+            return new TokenHTML(revisarPalabraReservada(this.palabraTemporal.toString()), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
         if (this.revisarEtiqueta(this.palabraTemporal.toString()) != null) {
-            return new Token(revisarEtiqueta(this.palabraTemporal.toString()), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+            return new TokenHTML(revisarEtiqueta(this.palabraTemporal.toString()), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
         if (this.revisarEtiquetaTitulo(this.palabraTemporal.toString()) != null) {
-            return new Token(revisarEtiquetaTitulo(this.palabraTemporal.toString()), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+            return new TokenHTML(revisarEtiquetaTitulo(this.palabraTemporal.toString()), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
         if (((this.palabraTemporal.length() == 1) && (this.posicionContenido == this.contenido.length()))
-                || (estadoTemporal == EstadoEnum.S1) || (estadoTemporal == EstadoEnum.S2)
-                || (estadoTemporal == EstadoEnum.S3) || (estadoTemporal == EstadoEnum.S7)
-                || (estadoTemporal == EstadoEnum.S9)) {
-            return new Token(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+                || (estadoTemporal == EstadoEnumHTML.S1) || (estadoTemporal == EstadoEnumHTML.S2)
+                || (estadoTemporal == EstadoEnumHTML.S3) || (estadoTemporal == EstadoEnumHTML.S7)
+                || (estadoTemporal == EstadoEnumHTML.S9)) {
+            return new TokenHTML(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
-        return new Token(this.estadoAceptacion.getTipoToken(estadoActual), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+        return new TokenHTML(this.estadoAceptacion.getTipoToken(estadoActual), lineaInicial, columnaInicial, this.palabraTemporal.toString());
     }
 
-    private Token getTokenTexto() throws IOException {
+    private TokenHTML getTokenTexto() throws IOException {
         //System.out.println();
         //System.out.println("EN TOKEN TEXTO");
         if (!isArchivoLeido) {
@@ -139,10 +139,10 @@ public class AnalizadorLexico {
         }
         this.ignorarEspaciosBlanco();
         this.palabraTemporal = new StringBuilder();
-        EstadoEnum estadoActual = EstadoEnum.S10;
+        EstadoEnumHTML estadoActual = EstadoEnumHTML.S10;
         char charActual;
-        EstadoEnum estadoTemporal = estadoActual;
-        AlfabetoEnum alfabetoSimbolo;
+        EstadoEnumHTML estadoTemporal = estadoActual;
+        AlfabetoEnumHTML alfabetoSimbolo;
         int lineaInicial = this.linea;
         int columnaInicial = this.columna;
         do {
@@ -157,40 +157,40 @@ public class AnalizadorLexico {
             //System.out.println("Alfabeto Simbolo: " + alfabetoSimbolo);
             estadoTemporal = this.funsionTransicion.produccion(estadoActual, alfabetoSimbolo);
             //System.out.println("Estado Temporal: " + estadoTemporal);
-            if (alfabetoSimbolo == AlfabetoEnum.DIAGONAL && estadoTemporal.equals(EstadoEnum.SF)) {
+            if (alfabetoSimbolo == AlfabetoEnumHTML.DIAGONAL && estadoTemporal.equals(EstadoEnumHTML.SF)) {
                 this.posicionContenido--;
                 this.palabraTemporal.deleteCharAt(this.palabraTemporal.length() - 1);
                 if (this.palabraTemporal.isEmpty()) {
-                    estadoTemporal = EstadoEnum.S0;
+                    estadoTemporal = EstadoEnumHTML.S0;
                     continue;
                 }
             }
-            if (estadoTemporal.equals(EstadoEnum.SF)) {
+            if (estadoTemporal.equals(EstadoEnumHTML.SF)) {
                 break;
             }
             this.columna++;
             this.posicionContenido++;
             this.palabraTemporal.append(charActual);
-            if (alfabetoSimbolo == AlfabetoEnum.NUEVA_LINEA) {
+            if (alfabetoSimbolo == AlfabetoEnumHTML.NUEVA_LINEA) {
                 this.linea++;
             }
-            if (estadoTemporal.equals(EstadoEnum.SE)) {
+            if (estadoTemporal.equals(EstadoEnumHTML.SE)) {
                 break;
             }
         } while (this.posicionContenido < this.contenido.length());
-        if (estadoTemporal.equals(EstadoEnum.SE)) {
+        if (estadoTemporal.equals(EstadoEnumHTML.SE)) {
             estadoActual = estadoTemporal;
         }
         if (((this.palabraTemporal.length() == 1) && (this.posicionContenido == this.contenido.length()))
-                || (estadoTemporal == EstadoEnum.S1) || (estadoTemporal == EstadoEnum.S2)
-                || (estadoTemporal == EstadoEnum.S3) || (estadoTemporal == EstadoEnum.S7)
-                || (estadoTemporal == EstadoEnum.S9)) {
-            return new Token(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+                || (estadoTemporal == EstadoEnumHTML.S1) || (estadoTemporal == EstadoEnumHTML.S2)
+                || (estadoTemporal == EstadoEnumHTML.S3) || (estadoTemporal == EstadoEnumHTML.S7)
+                || (estadoTemporal == EstadoEnumHTML.S9)) {
+            return new TokenHTML(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
-        return new Token(this.estadoAceptacion.getTipoToken(estadoActual), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+        return new TokenHTML(this.estadoAceptacion.getTipoToken(estadoActual), lineaInicial, columnaInicial, this.palabraTemporal.toString());
     }
 
-    private TipoTokenEnum revisarPalabraReservada(String palabra) {
+    private TipoTokenEnumHTML revisarPalabraReservada(String palabra) {
         switch (palabra.toLowerCase()) {
             case "class":
             case "href":
@@ -201,63 +201,63 @@ public class AnalizadorLexico {
             case "placeholder":
             case "required":
             case "name":
-                return TipoTokenEnum.PALABRA_RESERVADA;
+                return TipoTokenEnumHTML.PALABRA_RESERVADA;
             case "=":
-                return TipoTokenEnum.PALABRA_RESERVADA_IGUAL;
+                return TipoTokenEnumHTML.PALABRA_RESERVADA_IGUAL;
             default:
                 return null;
         }
     }
 
-    private TipoTokenEnum revisarEtiqueta(String palabra) {
+    private TipoTokenEnumHTML revisarEtiqueta(String palabra) {
         switch (palabra.toLowerCase()) {
             case "principal":
-                return TipoTokenEnum.ETIQUETA_PRINCIPAL;
+                return TipoTokenEnumHTML.ETIQUETA_PRINCIPAL;
             case "encabezado":
-                return TipoTokenEnum.ETIQUETA_ENCABEZADO;
+                return TipoTokenEnumHTML.ETIQUETA_ENCABEZADO;
             case "navegacion":
-                return TipoTokenEnum.ETIQUETA_NAVEGACION;
+                return TipoTokenEnumHTML.ETIQUETA_NAVEGACION;
             case "apartado":
-                return TipoTokenEnum.ETIQUETA_APARTADO;
+                return TipoTokenEnumHTML.ETIQUETA_APARTADO;
             case "listaordenada":
-                return TipoTokenEnum.ETIQUETA_LIST_ORDERED;
+                return TipoTokenEnumHTML.ETIQUETA_LIST_ORDERED;
             case "listadesordenada":
-                return TipoTokenEnum.ETIQUETA_LIST_UNORDERED;
+                return TipoTokenEnumHTML.ETIQUETA_LIST_UNORDERED;
             case "itemlista":
-                return TipoTokenEnum.ETIQUETA_LIST_ITEM;
+                return TipoTokenEnumHTML.ETIQUETA_LIST_ITEM;
             case "anclaje":
-                return TipoTokenEnum.ETIQUETA_ANCLAJE;
+                return TipoTokenEnumHTML.ETIQUETA_ANCLAJE;
             case "contenedor":
-                return TipoTokenEnum.ETIQUETA_CONTENEDOR;
+                return TipoTokenEnumHTML.ETIQUETA_CONTENEDOR;
             case "seccion":
-                return TipoTokenEnum.ETIQUETA_SECCION;
+                return TipoTokenEnumHTML.ETIQUETA_SECCION;
             case "articulo":
-                return TipoTokenEnum.ETIQUETA_ARTICULO;
+                return TipoTokenEnumHTML.ETIQUETA_ARTICULO;
             case "parrafo":
-                return TipoTokenEnum.ETIQUETA_PARRAFO;
+                return TipoTokenEnumHTML.ETIQUETA_PARRAFO;
             case "span":
-                return TipoTokenEnum.ETIQUETA_SPAN;
+                return TipoTokenEnumHTML.ETIQUETA_SPAN;
             case "entrada":
-                return TipoTokenEnum.ETIQUETA_ENTRADA;
+                return TipoTokenEnumHTML.ETIQUETA_ENTRADA;
             case "formulario":
-                return TipoTokenEnum.ETIQUETA_FORMULARIO;
+                return TipoTokenEnumHTML.ETIQUETA_FORMULARIO;
             case "label":
-                return TipoTokenEnum.ETIQUETA_LABEL;
+                return TipoTokenEnumHTML.ETIQUETA_LABEL;
             case "area":
-                return TipoTokenEnum.ETIQUETA_AREA;
+                return TipoTokenEnumHTML.ETIQUETA_AREA;
             case "boton":
-                return TipoTokenEnum.ETIQUETA_BOTON;
+                return TipoTokenEnumHTML.ETIQUETA_BOTON;
             case "piepagina":
-                return TipoTokenEnum.ETIQUETA_PIE_PAGINA;
+                return TipoTokenEnumHTML.ETIQUETA_PIE_PAGINA;
             default:
                 return null;
         }
     }
 
-    private TipoTokenEnum revisarEtiquetaTitulo(String palabra) {
+    private TipoTokenEnumHTML revisarEtiquetaTitulo(String palabra) {
         for (int i = 0; i < 6; i++) {
             if (palabra.equals("titulo" + (i + 1))) {
-                TipoTokenEnum tokenTitulo = TipoTokenEnum.ETIQUETA_TITULO;
+                TipoTokenEnumHTML tokenTitulo = TipoTokenEnumHTML.ETIQUETA_TITULO;
                 tokenTitulo.setTraduccion("h" + (i + 1));
                 return tokenTitulo;
             }
@@ -265,15 +265,15 @@ public class AnalizadorLexico {
         return null;
     }
 
-    public ArrayList<Token> getTokens(String contenido) {
+    public ArrayList<TokenHTML> getTokens(String contenido) {
         this.tokensAnalizados = new ArrayList<>();
         this.leerArchivo(contenido);
         try {
             while (!this.isFinArchivo()) {
-                Token token = this.getToken();
-                if (token.getTipoToken() == TipoTokenEnum.PALABRA_RESERVADA) {
+                TokenHTML token = this.getToken();
+                if (token.getTipoToken() == TipoTokenEnumHTML.PALABRA_RESERVADA) {
                     tokensAnalizados.add(isErrorSecuenciaPalabraReservada(tokensAnalizados, token));
-                } else if (token.getTipoToken() != TipoTokenEnum.CIERRE && token.getTipoToken() != TipoTokenEnum.APERTURA) {
+                } else if (token.getTipoToken() != TipoTokenEnumHTML.CIERRE && token.getTipoToken() != TipoTokenEnumHTML.APERTURA) {
                     tokensAnalizados.add(isErrorSecuencia(tokensAnalizados, token));
                 } else {
                     tokensAnalizados.add(token);
@@ -287,35 +287,35 @@ public class AnalizadorLexico {
                 tokensAnalizados.remove(tokensAnalizados.get(i));
             }
         }
-        for (Token tokensAnalizado : tokensAnalizados) {
+        for (TokenHTML tokensAnalizado : tokensAnalizados) {
             System.out.println(tokensAnalizado);
         }
         System.out.println();
         return tokensAnalizados;
     }
 
-    private Token isErrorSecuenciaPalabraReservada(ArrayList<Token> tokensLeidos, Token tokenPlabraReservada) {
-        Token tokenNuevo = tokenPlabraReservada;
+    private TokenHTML isErrorSecuenciaPalabraReservada(ArrayList<TokenHTML> tokensLeidos, TokenHTML tokenPlabraReservada) {
+        TokenHTML tokenNuevo = tokenPlabraReservada;
         if (!tokensLeidos.isEmpty()) {
-            if (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() == TipoTokenEnum.ERROR) {    // <a class
-                tokenNuevo.setTipoToken(TipoTokenEnum.ERROR);
-            } else if (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() == TipoTokenEnum.APERTURA) {  //<class
-                tokenNuevo.setTipoToken(TipoTokenEnum.ERROR);
-            } else if (tokensLeidos.get(tokensLeidos.size() - 2).getTipoToken() == TipoTokenEnum.DIAGONAL
-                    && (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnum.ETIQUETA_TITULO
-                    && tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnum.ETIQUETA_AREA
-                    && tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnum.ETIQUETA_ENTRADA)) {
-                tokenNuevo.setTipoToken(TipoTokenEnum.ERROR);
+            if (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() == TipoTokenEnumHTML.ERROR) {    // <a class
+                tokenNuevo.setTipoToken(TipoTokenEnumHTML.ERROR);
+            } else if (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() == TipoTokenEnumHTML.APERTURA) {  //<class
+                tokenNuevo.setTipoToken(TipoTokenEnumHTML.ERROR);
+            } else if (tokensLeidos.get(tokensLeidos.size() - 2).getTipoToken() == TipoTokenEnumHTML.DIAGONAL
+                    && (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnumHTML.ETIQUETA_TITULO
+                    && tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnumHTML.ETIQUETA_AREA
+                    && tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnumHTML.ETIQUETA_ENTRADA)) {
+                tokenNuevo.setTipoToken(TipoTokenEnumHTML.ERROR);
             }
         }
         return tokenNuevo;
     }
 
-    private Token isErrorSecuencia(ArrayList<Token> tokensLeidos, Token tokenSiguiente) {
-        Token tokenNuevo = tokenSiguiente;
+    private TokenHTML isErrorSecuencia(ArrayList<TokenHTML> tokensLeidos, TokenHTML tokenSiguiente) {
+        TokenHTML tokenNuevo = tokenSiguiente;
         if (!tokensLeidos.isEmpty()) {
-            if (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() == TipoTokenEnum.ERROR) {
-                tokenNuevo.setTipoToken(TipoTokenEnum.ERROR);
+            if (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() == TipoTokenEnumHTML.ERROR) {
+                tokenNuevo.setTipoToken(TipoTokenEnumHTML.ERROR);
             }
         }
         return tokenNuevo;
