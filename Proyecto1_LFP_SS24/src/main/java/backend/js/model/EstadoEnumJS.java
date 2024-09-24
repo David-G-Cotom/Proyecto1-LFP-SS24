@@ -46,6 +46,7 @@ public enum EstadoEnumJS {
     S33,
     S34,
     S35,
+    S36,
     SF,//Estado de Aceptacion/Finalizacion
     SE;//Estado de Error
     

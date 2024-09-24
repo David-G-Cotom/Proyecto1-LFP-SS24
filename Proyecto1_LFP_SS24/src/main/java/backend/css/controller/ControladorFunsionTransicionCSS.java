@@ -300,15 +300,7 @@ public class ControladorFunsionTransicionCSS {
             }
         }
         
-        this.matrizEstados[EstadoEnumCSS.S39.ordinal()][AlfabetoEnumCSS.NUMERO.ordinal()] = EstadoEnumCSS.S39;
-        for (int i = 0; i < this.matrizEstados[EstadoEnumCSS.S39.ordinal()].length; i++) {
-            if (i == AlfabetoEnumCSS.ERROR.ordinal()) {
-                continue;
-            }
-            if (this.matrizEstados[EstadoEnumCSS.S39.ordinal()][i] == null) {
-                this.matrizEstados[EstadoEnumCSS.S39.ordinal()][i] = EstadoEnumCSS.SF;
-            }
-        }
+        this.matrizEstados[EstadoEnumCSS.S39.ordinal()][AlfabetoEnumCSS.NUMERO.ordinal()] = EstadoEnumCSS.S45;
         
         this.matrizEstados[EstadoEnumCSS.S40.ordinal()][AlfabetoEnumCSS.COMILLA_SIMPLE.ordinal()] = EstadoEnumCSS.S36;
         this.matrizEstados[EstadoEnumCSS.S40.ordinal()][AlfabetoEnumCSS.ACENTO.ordinal()] = EstadoEnumCSS.S44;
@@ -345,6 +337,16 @@ public class ControladorFunsionTransicionCSS {
                 continue;
             }
             this.matrizEstados[EstadoEnumCSS.S44.ordinal()][i] = EstadoEnumCSS.SF;
+        }
+        
+        this.matrizEstados[EstadoEnumCSS.S45.ordinal()][AlfabetoEnumCSS.NUMERO.ordinal()] = EstadoEnumCSS.S45;
+        for (int i = 0; i < this.matrizEstados[EstadoEnumCSS.S45.ordinal()].length; i++) {
+            if (i == AlfabetoEnumCSS.ERROR.ordinal()) {
+                continue;
+            }
+            if (this.matrizEstados[EstadoEnumCSS.S45.ordinal()][i] == null) {
+                this.matrizEstados[EstadoEnumCSS.S45.ordinal()][i] = EstadoEnumCSS.SF;
+            }
         }
         
         for (EstadoEnumCSS[] arregloEstado : matrizEstados) {

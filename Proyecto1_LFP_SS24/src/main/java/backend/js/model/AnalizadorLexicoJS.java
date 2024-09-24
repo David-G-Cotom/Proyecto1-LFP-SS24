@@ -108,7 +108,58 @@ public class AnalizadorLexicoJS {
         if (estadoTemporal.equals(EstadoEnumJS.SE)) {
             estadoActual = estadoTemporal;
         }
+        if (estadoActual == EstadoEnumJS.S1) {
+            if (this.revisarBooleano(this.palabraTemporal.toString()) != null) {
+                return new TokenJS(TipoTokenEnumJS.BOOLEANO, lineaInicial, columnaInicial, this.palabraTemporal.toString());
+            } else if (this.revisarPalabraReservada(this.palabraTemporal.toString()) != null) {
+                return new TokenJS(TipoTokenEnumJS.PALABRA_RESERVADA, lineaInicial, columnaInicial, this.palabraTemporal.toString());
+            } else {
+                if (this.palabraTemporal.toString().contains(".")) {
+                    return new TokenJS(TipoTokenEnumJS.ESPECIAL, lineaInicial, columnaInicial, this.palabraTemporal.toString());
+                } else {
+                    return new TokenJS(TipoTokenEnumJS.IDENTIFICADOR, lineaInicial, columnaInicial, this.palabraTemporal.toString());
+                }
+            }
+        }
+        if (((this.palabraTemporal.length() >= 1) && (this.posicionContenido == this.contenido.length()))
+                || (estadoTemporal == EstadoEnumJS.S1) || (estadoTemporal == EstadoEnumJS.S4)
+                || (estadoTemporal == EstadoEnumJS.S6) || (estadoTemporal == EstadoEnumJS.S8)
+                || (estadoTemporal == EstadoEnumJS.S10) || (estadoTemporal == EstadoEnumJS.S22)
+                || (estadoTemporal == EstadoEnumJS.S24) || (estadoTemporal == EstadoEnumJS.S26)) {
+            return new TokenJS(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+        }
         return new TokenJS(this.estadoAceptacion.getTipoToken(estadoActual), lineaInicial, columnaInicial, this.palabraTemporal.toString());
+    }
+    
+    private TipoTokenEnumJS revisarBooleano(String palabra) {
+        switch (palabra.toLowerCase()) {
+            case "true":
+            case "false":
+                return TipoTokenEnumJS.BOOLEANO;
+            default:
+                return null;
+        }
+    }
+    
+    private TipoTokenEnumJS revisarPalabraReservada(String palabra) {
+        switch (palabra.toLowerCase()) {
+            case "function":
+            case "const":
+            case "let":
+            case "document":
+            case "event":
+            case "alert":
+            case "for":
+            case "while":
+            case "if":
+            case "else":
+            case "return":
+            case "console.log":
+            case "null":
+                return TipoTokenEnumJS.PALABRA_RESERVADA;
+            default:
+                return null;
+        }
     }
     
     public ArrayList<TokenJS> getTokens(String contenido) {

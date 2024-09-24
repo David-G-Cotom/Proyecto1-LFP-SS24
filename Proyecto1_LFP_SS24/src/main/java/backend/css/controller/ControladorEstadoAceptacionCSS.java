@@ -27,7 +27,7 @@ public class ControladorEstadoAceptacionCSS {
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S30, TipoTokenEnumCSS.OTROS);
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S31, TipoTokenEnumCSS.OTROS);
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S38, TipoTokenEnumCSS.ENTERO);
-        this.mapaEstadoAceptacion.put(EstadoEnumCSS.S39, TipoTokenEnumCSS.DECIMAL);
+        this.mapaEstadoAceptacion.put(EstadoEnumCSS.S45, TipoTokenEnumCSS.DECIMAL);
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S42, TipoTokenEnumCSS.COMENTARIO);
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.S44, TipoTokenEnumCSS.CADENA);
         this.mapaEstadoAceptacion.put(EstadoEnumCSS.SE, TipoTokenEnumCSS.ERROR);

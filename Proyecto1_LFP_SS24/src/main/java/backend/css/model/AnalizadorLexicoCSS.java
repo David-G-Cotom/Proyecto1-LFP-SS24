@@ -179,9 +179,9 @@ public class AnalizadorLexicoCSS {
             }
         }
         if (((this.palabraTemporal.length() == 1) && (this.posicionContenido == this.contenido.length()))
-                || (estadoTemporal == EstadoEnumCSS.S22) || (estadoTemporal == EstadoEnumCSS.S38)
-                || (estadoTemporal == EstadoEnumCSS.S29) || (estadoTemporal == EstadoEnumCSS.S30)
-                || (estadoTemporal == EstadoEnumCSS.S31)) {
+                || (estadoTemporal == EstadoEnumCSS.S22) || (estadoTemporal == EstadoEnumCSS.S29)
+                || (estadoTemporal == EstadoEnumCSS.S30) || (estadoTemporal == EstadoEnumCSS.S31)
+                || (estadoTemporal == EstadoEnumCSS.S39) || (estadoTemporal == EstadoEnumCSS.S45)) {
             return new TokenCSS(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
         if ((estadoTemporal == EstadoEnumCSS.S36) && (charActual == '\'')) {

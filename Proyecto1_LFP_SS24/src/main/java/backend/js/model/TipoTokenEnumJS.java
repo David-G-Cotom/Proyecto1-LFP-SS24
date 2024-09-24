@@ -40,6 +40,7 @@ public enum TipoTokenEnumJS {
     PUNTO,
     DOS_PUNTOS,
     COMENTARIO,
+    ESPECIAL,
     ERROR;
     
 }

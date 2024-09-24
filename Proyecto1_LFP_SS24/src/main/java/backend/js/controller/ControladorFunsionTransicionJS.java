@@ -211,15 +211,7 @@ public class ControladorFunsionTransicionJS {
             }
         }
         
-        this.matrizEstados[EstadoEnumJS.S20.ordinal()][AlfabetoEnumJS.NUMERO.ordinal()] = EstadoEnumJS.S20;
-        for (int i = 0; i < this.matrizEstados[EstadoEnumJS.S20.ordinal()].length; i++) {
-            if (i == AlfabetoEnumJS.ERROR.ordinal()) {
-                continue;
-            }
-            if (this.matrizEstados[EstadoEnumJS.S20.ordinal()][i] == null) {
-                this.matrizEstados[EstadoEnumJS.S20.ordinal()][i] = EstadoEnumJS.SF;
-            }
-        }
+        this.matrizEstados[EstadoEnumJS.S20.ordinal()][AlfabetoEnumJS.NUMERO.ordinal()] = EstadoEnumJS.S36;
         
         this.matrizEstados[EstadoEnumJS.S21.ordinal()][AlfabetoEnumJS.COMILLA_DOBLE.ordinal()] = EstadoEnumJS.S22;
         for (int i = 0; i < this.matrizEstados[EstadoEnumJS.S21.ordinal()].length; i++) {
@@ -357,7 +349,17 @@ public class ControladorFunsionTransicionJS {
                 continue;
             }
             if (this.matrizEstados[EstadoEnumJS.S35.ordinal()][i] == null) {
-                this.matrizEstados[EstadoEnumJS.S35.ordinal()][i] = EstadoEnumJS.S25;
+                this.matrizEstados[EstadoEnumJS.S35.ordinal()][i] = EstadoEnumJS.S35;
+            }
+        }
+        
+        this.matrizEstados[EstadoEnumJS.S36.ordinal()][AlfabetoEnumJS.NUMERO.ordinal()] = EstadoEnumJS.S36;
+        for (int i = 0; i < this.matrizEstados[EstadoEnumJS.S36.ordinal()].length; i++) {
+            if (i == AlfabetoEnumJS.ERROR.ordinal()) {
+                continue;
+            }
+            if (this.matrizEstados[EstadoEnumJS.S36.ordinal()][i] == null) {
+                this.matrizEstados[EstadoEnumJS.S36.ordinal()][i] = EstadoEnumJS.SF;
             }
         }
         
@@ -369,13 +371,13 @@ public class ControladorFunsionTransicionJS {
                 }
             }
         }
-        for (int i = 0; i < this.matrizEstados.length; i++) {
-            System.out.println(i+1);
+        /*for (int i = 0; i < this.matrizEstados.length; i++) {
+            System.out.println(i);
             for (int j = 0; j < this.matrizEstados[0].length; j++) {
                 System.out.print(this.matrizEstados[i][j].toString() + " ");
             }
             System.out.println("");
-        }
+        }*/
     }
 
     public EstadoEnumJS getESTADO_INICIAL() {
