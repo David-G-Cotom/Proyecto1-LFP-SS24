@@ -8,6 +8,6 @@ package backend.js.controller;
  *
  * @author Carlos Cotom
  */
-public class ControladorFunsionTransicion {
+public class ControladorAlfabetoJS {
     
 }

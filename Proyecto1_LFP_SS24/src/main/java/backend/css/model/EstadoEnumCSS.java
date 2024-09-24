@@ -53,6 +53,8 @@ public enum EstadoEnumCSS {
     S40,
     S41,
     S42,
+    S43,
+    S44,
     SF,//Estado de Aceptacion/Finalizacion
     SE;//Estado de Error
     

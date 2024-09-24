@@ -8,6 +8,6 @@ package backend.js.model;
  *
  * @author Carlos Cotom
  */
-public enum AlfabetoEnum {
+public enum AlfabetoEnumJS {
     
 }

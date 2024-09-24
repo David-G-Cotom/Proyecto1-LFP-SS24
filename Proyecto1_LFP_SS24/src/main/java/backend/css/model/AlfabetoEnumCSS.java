@@ -23,6 +23,7 @@ public enum AlfabetoEnumCSS {
     PUNTO_COMA,
     COMA,
     COMILLA_SIMPLE,
+    ACENTO,
     CORCHETES,
     PARENTESIS,
     LLAVE,

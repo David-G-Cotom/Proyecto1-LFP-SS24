@@ -83,16 +83,16 @@ public class AnalizadorLexicoCSS {
         int columnaInicial = this.columna;
         do {
             estadoActual = estadoTemporal;
-            //System.out.println("Estado Actual: " + estadoActual);
+            System.out.println("Estado Actual: " + estadoActual);
             charActual = contenido.charAt(this.posicionContenido);
-            //System.out.println("Caracter Actual: " + charActual);
+            System.out.println("Caracter Actual: " + charActual);
             if (charActual == '\r') {
                 break;
             }
             alfabetoSimbolo = this.alfabetoController.getAlfabeto(charActual);
-            //System.out.println("Alfabeto Simbolo: " + alfabetoSimbolo);
+            System.out.println("Alfabeto Simbolo: " + alfabetoSimbolo);
             estadoTemporal = this.funsionTransicion.produccion(estadoActual, alfabetoSimbolo);
-            //System.out.println("Estado Temporal: " + estadoTemporal);
+            System.out.println("Estado Temporal: " + estadoTemporal);
             if (estadoTemporal.equals(EstadoEnumCSS.SF)) {
                 break;
             }
@@ -180,7 +180,8 @@ public class AnalizadorLexicoCSS {
         }
         if (((this.palabraTemporal.length() == 1) && (this.posicionContenido == this.contenido.length()))
                 || (estadoTemporal == EstadoEnumCSS.S22) || (estadoTemporal == EstadoEnumCSS.S38)
-                || (estadoTemporal == EstadoEnumCSS.S29) || (estadoTemporal == EstadoEnumCSS.S30)) {
+                || (estadoTemporal == EstadoEnumCSS.S29) || (estadoTemporal == EstadoEnumCSS.S30)
+                || (estadoTemporal == EstadoEnumCSS.S31)) {
             return new TokenCSS(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
         if ((estadoTemporal == EstadoEnumCSS.S36) && (charActual == '\'')) {
@@ -192,6 +193,16 @@ public class AnalizadorLexicoCSS {
         }
         if ((estadoTemporal == EstadoEnumCSS.S14) && (charActual == ')')) {
             return new TokenCSS(TipoTokenEnumCSS.COLOR, lineaInicial, columnaInicial, this.palabraTemporal.toString());
+        }
+        if (estadoTemporal == EstadoEnumCSS.S24) {
+            if (this.revisarClase(this.palabraTemporal.toString()) != null) {
+                return new TokenCSS(TipoTokenEnumCSS.CLASE, lineaInicial, columnaInicial, this.palabraTemporal.toString());
+            } else {
+                return new TokenCSS(TipoTokenEnumCSS.ID, lineaInicial, columnaInicial, this.palabraTemporal.toString());
+            }
+        }
+        if (estadoTemporal == EstadoEnumCSS.S44) {
+            return new TokenCSS(this.estadoAceptacion.getTipoToken(estadoTemporal), lineaInicial, columnaInicial, this.palabraTemporal.toString());
         }
         return new TokenCSS(this.estadoAceptacion.getTipoToken(estadoActual), lineaInicial, columnaInicial, this.palabraTemporal.toString());
     }

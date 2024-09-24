@@ -8,6 +8,6 @@ package backend.js.controller;
  *
  * @author Carlos Cotom
  */
-public class ControladorEstadoAceptacion {
+public class ControladorEstadoAceptacionJS {
     
 }

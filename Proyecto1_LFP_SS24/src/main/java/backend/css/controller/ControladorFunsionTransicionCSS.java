@@ -30,6 +30,7 @@ public class ControladorFunsionTransicionCSS {
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.PUNTO_COMA.ordinal()] = EstadoEnumCSS.S30;
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.COMA.ordinal()] = EstadoEnumCSS.S30;
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.COMILLA_SIMPLE.ordinal()] = EstadoEnumCSS.S33;
+        this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.ACENTO.ordinal()] = EstadoEnumCSS.S43;
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.PARENTESIS.ordinal()] = EstadoEnumCSS.S30;
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.LLAVE.ordinal()] = EstadoEnumCSS.S30;
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.DIAGONAL.ordinal()] = EstadoEnumCSS.S41;
@@ -310,6 +311,7 @@ public class ControladorFunsionTransicionCSS {
         }
         
         this.matrizEstados[EstadoEnumCSS.S40.ordinal()][AlfabetoEnumCSS.COMILLA_SIMPLE.ordinal()] = EstadoEnumCSS.S36;
+        this.matrizEstados[EstadoEnumCSS.S40.ordinal()][AlfabetoEnumCSS.ACENTO.ordinal()] = EstadoEnumCSS.S44;
         for (int i = 0; i < this.matrizEstados[EstadoEnumCSS.S40.ordinal()].length; i++) {
             if (i == AlfabetoEnumCSS.ERROR.ordinal()) {
                 continue;
@@ -331,6 +333,20 @@ public class ControladorFunsionTransicionCSS {
             }
         }
         
+        for (int i = 0; i < this.matrizEstados[EstadoEnumCSS.S43.ordinal()].length; i++) {
+            if (i == AlfabetoEnumCSS.ERROR.ordinal()) {
+                continue;
+            }
+            this.matrizEstados[EstadoEnumCSS.S43.ordinal()][i] = EstadoEnumCSS.S40;
+        }
+        
+        for (int i = 0; i < this.matrizEstados[EstadoEnumCSS.S44.ordinal()].length; i++) {
+            if (i == AlfabetoEnumCSS.ERROR.ordinal()) {
+                continue;
+            }
+            this.matrizEstados[EstadoEnumCSS.S44.ordinal()][i] = EstadoEnumCSS.SF;
+        }
+        
         for (EstadoEnumCSS[] arregloEstado : matrizEstados) {
             for (int i = 0; i < this.matrizEstados[0].length; i++) {
                 if (arregloEstado[i] == null) {
@@ -338,12 +354,12 @@ public class ControladorFunsionTransicionCSS {
                 }
             }
         }
-        for (int i = 0; i < this.matrizEstados.length; i++) {
+        /*for (int i = 0; i < this.matrizEstados.length; i++) {
             for (int j = 0; j < this.matrizEstados[0].length; j++) {
                 System.out.print(this.matrizEstados[i][j].toString() + " ");
             }
             System.out.println("");
-        }
+        }*/
         
     }
 

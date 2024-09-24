@@ -46,6 +46,8 @@ public class ControladorAlfabetoCSS {
             return AlfabetoEnumCSS.COMA;
         } else if (charAt == '\'') {
             return AlfabetoEnumCSS.COMILLA_SIMPLE;
+        } else if (charAt == '`') {
+            return AlfabetoEnumCSS.ACENTO;
         } else if (charAt == '(' || charAt == ')') {
             return AlfabetoEnumCSS.PARENTESIS;
         } else if (charAt == '{' || charAt == '}') {
