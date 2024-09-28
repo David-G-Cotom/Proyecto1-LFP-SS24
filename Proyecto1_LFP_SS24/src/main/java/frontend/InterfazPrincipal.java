@@ -4,6 +4,7 @@
  */
 package frontend;
 
+import backend.AnalizadorCodigo;
 import backend.html.model.AnalizadorLexicoHTML;
 import backend.html.model.TokenHTML;
 import backend.css.model.AnalizadorLexicoCSS;
@@ -159,6 +160,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCargaActionPerformed
 
     private void btnTraducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraducirActionPerformed
+        AnalizadorCodigo compilador = new AnalizadorCodigo();
+        compilador.analizarCodigoFuente(this.txaCodigo.getText());
         /*if (!this.tokensHTML.isEmpty()) {
             this.tokensHTML.clear();
         }
@@ -167,10 +170,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             this.tokensCSS.clear();
         }
         this.tokensCSS = this.analizadorCSS.getTokens(this.txaCodigo.getText());*/
-        if (!this.tokensJS.isEmpty()) {
+        /*if (!this.tokensJS.isEmpty()) {
             this.tokensJS.clear();
         }
-        this.tokensJS = this.analizadorJS.getTokens(this.txaCodigo.getText());
+        this.tokensJS = this.analizadorJS.getTokens(this.txaCodigo.getText());*/
     }//GEN-LAST:event_btnTraducirActionPerformed
 
     

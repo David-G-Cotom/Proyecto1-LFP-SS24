@@ -56,7 +56,7 @@ public class TokenCSS {
 
     @Override
     public String toString() {
-        return "Token{" + "tipoToken = " + tipoToken + ", linea = " + linea + ", columan = " + columan + ", lexema = " + lexema + '}';
+        return "TokenCSS{" + "tipoToken = " + tipoToken + ", linea = " + linea + ", columan = " + columan + ", lexema = " + lexema + '}';
     }
     
 }

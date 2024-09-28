@@ -56,7 +56,7 @@ public class TokenHTML {
 
     @Override
     public String toString() {
-        return "Token{" + "tipoToke = " + tipoToken + ", linea = " + linea + ", columna = " + columna + ", lexema = " + lexema + ", traduccion = " + tipoToken.getTraduccion() + '}';
+        return "TokenHTML{" + "tipoToke = " + tipoToken + ", linea = " + linea + ", columna = " + columna + ", lexema = " + lexema + ", traduccion = " + tipoToken.getTraduccion() + '}';
     }
     
 }
