@@ -14,12 +14,16 @@ public class TokenCSS {
     private int linea;
     private int columan;
     private String lexema;
+    private final String LENGUAJE = "CSS";
+    private String expresionRegular;
 
     public TokenCSS(TipoTokenEnumCSS tipoToken, int linea, int columan, String lexema) {
         this.tipoToken = tipoToken;
         this.linea = linea;
         this.columan = columan;
         this.lexema = lexema;
+        this.expresionRegular = this.tipoToken.getExpresionRegular();
+        this.verificarExpresionRegular();
     }
 
     public TipoTokenEnumCSS getTipoToken() {
@@ -54,9 +58,30 @@ public class TokenCSS {
         this.lexema = lexema;
     }
 
+    public String getLENGUAJE() {
+        return LENGUAJE;
+    }
+
+    public String getExpresionRegular() {
+        return expresionRegular;
+    }
+
+    public void setExpresionRegular(String expresionRegular) {
+        this.expresionRegular = expresionRegular;
+    }
+    
+    private void verificarExpresionRegular() {
+        if (this.expresionRegular.equals("")) {
+            this.expresionRegular = lexema;
+        }
+    }
+
     @Override
     public String toString() {
-        return "TokenCSS{" + "tipoToken = " + tipoToken + ", linea = " + linea + ", columan = " + columan + ", lexema = " + lexema + '}';
+        return "TokenCSS{" + "tipoToken = " + tipoToken + ", linea = " + linea +
+                ", columan = " + columan + ", lexema = " + lexema +
+                ", lenguaje = " + LENGUAJE +
+                ", expresionRegular = " + expresionRegular + '}';
     }
     
 }

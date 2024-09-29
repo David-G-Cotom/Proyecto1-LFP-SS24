@@ -10,37 +10,51 @@ package backend.js.model;
  */
 public enum TipoTokenEnumJS {
     
-    IDENTIFICADOR,
-    SUMA,
-    RESTA,
-    MULTIPLICACION,
-    DIVISION,
-    IGUAL,
-    MENOR_QUE,
-    MAYOR_QUE,
-    MENOR_IGUAL,
-    MAYOR_IGUAL,
-    DIFERENTE,
-    OR,
-    AND,
-    NOT,
-    INCREMENTO,
-    DECREMENTO,
-    ENTERO,
-    DECIMAL,
-    CADENA,
-    BOOLEANO,
-    PALABRA_RESERVADA,
-    PARENTESIS,
-    CORCHETE,
-    LLAVE,
-    ASIGNACION,
-    PUNTO_COMA,
-    COMA,
-    PUNTO,
-    DOS_PUNTOS,
-    COMENTARIO,
-    ESPECIAL,
-    ERROR;
+    IDENTIFICADOR("[a-zA-Z]([a-zA-Z]|[0-9]|[_])*"),
+    SUMA("+"),
+    RESTA("-"),
+    MULTIPLICACION("*"),
+    DIVISION("/"),
+    IGUAL("=="),
+    MENOR_QUE("<"),
+    MAYOR_QUE(">"),
+    MENOR_IGUAL("<="),
+    MAYOR_IGUAL(">="),
+    DIFERENTE("!="),
+    OR("||"),
+    AND("&&"),
+    NOT("!"),
+    INCREMENTO("++"),
+    DECREMENTO("--"),
+    ENTERO("[0-9]+"),
+    DECIMAL("[0-9]+.[0-9]+"),
+    CADENA("'([a-zA-Z]|[0-9]|[.])*'"),
+    BOOLEANO(""),
+    PALABRA_RESERVADA(""),
+    PARENTESIS("[(]|[)]"),
+    CORCHETE("[[]|[]]"),
+    LLAVE("[{]|[}]"),
+    ASIGNACION("="),
+    PUNTO_COMA(";"),
+    COMA(","),
+    PUNTO("."),
+    DOS_PUNTOS(":"),
+    COMENTARIO("//([a-zA-Z]|[0-9]|[.])*"),
+    ESPECIAL(""),
+    ERROR("");
+    
+    private String expresionRegular;
+
+    private TipoTokenEnumJS(String expresionRegular) {
+        this.expresionRegular = expresionRegular;
+    }
+
+    public String getExpresionRegular() {
+        return expresionRegular;
+    }
+
+    public void setExpresionRegular(String expresionRegular) {
+        this.expresionRegular = expresionRegular;
+    }
     
 }

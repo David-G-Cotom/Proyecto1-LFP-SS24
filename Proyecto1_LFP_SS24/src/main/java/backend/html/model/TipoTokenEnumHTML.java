@@ -10,41 +10,42 @@ package backend.html.model;
  */
 public enum TipoTokenEnumHTML {
     
-    APERTURA(""),
-    DIAGONAL(""),
-    CIERRE(""),
-    ETIQUETA_RESERVADA(""),
-    ETIQUETA_PRINCIPAL("main"),
-    ETIQUETA_ENCABEZADO("header"),
-    ETIQUETA_NAVEGACION("nav"),
-    ETIQUETA_APARTADO("aside"),
-    ETIQUETA_LIST_ORDERED("ul"),
-    ETIQUETA_LIST_UNORDERED("ol"),
-    ETIQUETA_LIST_ITEM("li"),
-    ETIQUETA_ANCLAJE("a"),
-    ETIQUETA_CONTENEDOR("div"),
-    ETIQUETA_SECCION("section"),
-    ETIQUETA_ARTICULO("article"),
-    ETIQUETA_TITULO(""),            // h#
-    ETIQUETA_PARRAFO("p"),
-    ETIQUETA_SPAN("span"),
-    ETIQUETA_ENTRADA("input"),
-    ETIQUETA_FORMULARIO("form"),
-    ETIQUETA_LABEL("label"),
-    ETIQUETA_AREA("textarea"),
-    ETIQUETA_BOTON("button"),
-    ETIQUETA_PIE_PAGINA("footer"),
-    PALABRA_RESERVADA(""),
-    PALABRA_RESERVADA_IGUAL(""),
-    CADENA(""),                     // "fghj"
-    TEXTO(""),
-    COMENTARIO(""),
-    ERROR("");
+    APERTURA("", "<"),
+    DIAGONAL("", "/"),
+    CIERRE("", ">"),
+    ETIQUETA_PRINCIPAL("main", "principal"),
+    ETIQUETA_ENCABEZADO("header", "encabezado"),
+    ETIQUETA_NAVEGACION("nav", "navegacion"),
+    ETIQUETA_APARTADO("aside", "apartado"),
+    ETIQUETA_LIST_ORDERED("ul", "listaordenada"),
+    ETIQUETA_LIST_UNORDERED("ol", "listadesordenada"),
+    ETIQUETA_LIST_ITEM("li", "itemlista"),
+    ETIQUETA_ANCLAJE("a", "anclaje"),
+    ETIQUETA_CONTENEDOR("div", "contenedor"),
+    ETIQUETA_SECCION("section", "seccion"),
+    ETIQUETA_ARTICULO("article", "articulo"),
+    ETIQUETA_TITULO("", "titulo"),                      // h#
+    ETIQUETA_PARRAFO("p", "parrafo"),
+    ETIQUETA_SPAN("span", "span"),
+    ETIQUETA_ENTRADA("input", "entrada"),
+    ETIQUETA_FORMULARIO("form", "formulario"),
+    ETIQUETA_LABEL("label", "label"),
+    ETIQUETA_AREA("textarea", "area"),
+    ETIQUETA_BOTON("button", "boton"),
+    ETIQUETA_PIE_PAGINA("footer", "piepagina"),
+    PALABRA_RESERVADA("", ""),
+    PALABRA_RESERVADA_IGUAL("", "="),
+    CADENA("", "\"([a-zA-Z]|[0-9]|[.])*\""),
+    TEXTO("", "([a-zA-Z]|[0-9]|[.])+"),
+    COMENTARIO("", "//([a-zA-Z]|[0-9]|[.])*"),
+    ERROR("", "");
     
     private String traduccion;
+    private String expresionRegular;
 
-    private TipoTokenEnumHTML(String traduccion) {
+    private TipoTokenEnumHTML(String traduccion, String expresionRegular) {
         this.traduccion = traduccion;
+        this.expresionRegular = expresionRegular;
     }
 
     public String getTraduccion() {
@@ -53,6 +54,14 @@ public enum TipoTokenEnumHTML {
 
     public void setTraduccion(String traduccion) {
         this.traduccion = traduccion;
+    }
+
+    public String getExpresionRegular() {
+        return expresionRegular;
+    }
+
+    public void setExpresionRegular(String expresionRegular) {
+        this.expresionRegular = expresionRegular;
     }
     
 }

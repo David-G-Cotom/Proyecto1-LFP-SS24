@@ -36,11 +36,25 @@ public class AnalizadorLexicoCSS {
         this.estadoAceptacion = new ControladorEstadoAceptacionCSS();
     }
 
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
     public void leerContenido(String contenido) {
         this.contenido = new String(contenido.getBytes());
         this.isArchivoLeido = true;
-        this.linea = 0;
-        this.columna = 0;
         this.posicionContenido = 0;
     }
 
@@ -341,14 +355,6 @@ public class AnalizadorLexicoCSS {
 
     private TipoTokenEnumCSS revisarClase(String palabra) {
         if (palabra.startsWith(".")) {
-            return TipoTokenEnumCSS.CLASE;
-        } else {
-            return null;
-        }
-    }
-
-    private TipoTokenEnumCSS revisarID(String palabra) {
-        if (palabra.startsWith("#")) {
             return TipoTokenEnumCSS.CLASE;
         } else {
             return null;

@@ -34,12 +34,26 @@ public class AnalizadorLexicoJS {
         this.palabraTemporal = new StringBuilder();
         this.estadoAceptacion = new ControladorEstadoAceptacionJS();
     }
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
     
     public void leerContenido(String contenido) {
         this.contenido = new String(contenido.getBytes());
         this.isContenidoLeido = true;
-        this.linea = 0;
-        this.columna = 0;
         this.posicionContenido = 0;
     }
     

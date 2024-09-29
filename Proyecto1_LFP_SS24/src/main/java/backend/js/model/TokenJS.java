@@ -14,12 +14,16 @@ public class TokenJS {
     private int linea;
     private int columna;
     private String lexema;
+    private final String LENGUAJE = "JavaScript";
+    private String expresionRegular;
 
     public TokenJS(TipoTokenEnumJS tipoToken, int linea, int columna, String lexema) {
         this.tipoToken = tipoToken;
         this.linea = linea;
         this.columna = columna;
         this.lexema = lexema;
+        this.expresionRegular = this.tipoToken.getExpresionRegular();
+        this.verificarExpresionRegular();
     }
 
     public TipoTokenEnumJS getTipoToken() {
@@ -54,9 +58,22 @@ public class TokenJS {
         this.lexema = lexema;
     }
 
+    public String getLENGUAJE() {
+        return LENGUAJE;
+    }
+    
+    private void verificarExpresionRegular() {
+        if (this.expresionRegular.equals("")) {
+            this.expresionRegular = lexema;
+        }
+    }
+
     @Override
     public String toString() {
-        return "TokenJS{" + "tipoToken = " + tipoToken + ", linea = " + linea + ", columna = " + columna + ", lexema = " + lexema + '}';
+        return "TokenJS{" + "tipoToken = " + tipoToken + ", linea = " + linea +
+                ", columna = " + columna + ", lexema = " + lexema +
+                ", lenguaje = " + LENGUAJE +
+                ", expresionRegular = " + expresionRegular + '}';
     }
     
 }

@@ -14,12 +14,16 @@ public class TokenHTML {
     private int linea;
     private int columna;
     private String lexema;
+    private final String LENGUAJE = "HTML";
+    private String expresionRegular;
 
     public TokenHTML(TipoTokenEnumHTML tipoToke, int linea, int columna, String lexema) {
         this.tipoToken = tipoToke;
         this.linea = linea;
         this.columna = columna;
         this.lexema = lexema;
+        this.expresionRegular = this.tipoToken.getExpresionRegular();
+        this.verificarExpresionRegular();
     }
 
     public TipoTokenEnumHTML getTipoToken() {
@@ -54,9 +58,23 @@ public class TokenHTML {
         this.lexema = lexema;
     }
 
+    public String getLENGUAJE() {
+        return LENGUAJE;
+    }
+    
+    private void verificarExpresionRegular() {
+        if (this.expresionRegular.equals("")) {
+            this.expresionRegular = lexema;
+        }
+    }
+
     @Override
     public String toString() {
-        return "TokenHTML{" + "tipoToke = " + tipoToken + ", linea = " + linea + ", columna = " + columna + ", lexema = " + lexema + ", traduccion = " + tipoToken.getTraduccion() + '}';
+        return "TokenHTML{" + "tipoToke = " + tipoToken + ", linea = " + linea +
+                ", columna = " + columna + ", lexema = " + lexema +
+                ", traduccion = " + tipoToken.getTraduccion() +
+                ", lenguaje = " + LENGUAJE +
+                ", expresionRegular = " + expresionRegular + '}';
     }
     
 }
