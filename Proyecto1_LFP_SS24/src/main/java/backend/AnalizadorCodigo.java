@@ -11,6 +11,7 @@ import backend.html.model.AnalizadorLexicoHTML;
 import backend.js.model.AnalizadorLexicoJS;
 //import backend.js.model.TokenJS;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -61,17 +62,13 @@ public class AnalizadorCodigo {
         char charActual;
         do {
             charActual = this.codigoFuente.charAt(posicionContenido);
-            //System.out.println(charActual);
-            //System.out.println(linea);
             this.posicionContenido++;
             this.columna++;
             if (charActual == '\r' || charActual == ' ') {
-                //System.out.println("es R");
                 this.palabraTemporal = new StringBuilder();
                 continue;
             }
             if (charActual == '\n') {
-                //System.out.println("es N");
                 this.linea++;
                 this.columna = 0;
                 this.palabraTemporal = new StringBuilder();
@@ -234,6 +231,43 @@ public class AnalizadorCodigo {
     public void analizarCodigoFuente(String codigoFuente) {
         this.leerCodigo(codigoFuente);
         this.dividirCodigoFuente();
+    }
+
+    public String optimizarCodigo(String codigo) {
+        String[] lineasCodigo = codigo.split("\n");
+        ArrayList<String> codigoOptimizado = new ArrayList<>();
+        String[] lineasComentarios = new String[lineasCodigo.length];
+        String[] lineasLenguaje = new String[lineasCodigo.length];
+        for (int i = 0; i < lineasCodigo.length; i++) {
+            if (lineasCodigo[i].toLowerCase().contains(">>[html]")) {
+                lineasLenguaje[i] = "HTML";
+            } else if (lineasCodigo[i].toLowerCase().contains(">>[css]")) {
+                lineasLenguaje[i] = "CSS";
+            } else if (lineasCodigo[i].toLowerCase().contains(">>[js]")) {
+                lineasLenguaje[i] = "JS";
+            }
+            //Eliminar lineas vacias
+            if (lineasCodigo[i].trim().isEmpty()) {
+                continue;
+            }
+            //Eliminar lineas con comentarios
+            if (lineasCodigo[i].contains("//")) {
+                lineasComentarios[i] = lineasCodigo[i];
+                codigoOptimizado.add("");
+                continue;
+            }
+            //AgregarLinea al codigo optimizado
+            codigoOptimizado.add(lineasCodigo[i]);
+        }
+        System.out.println(Arrays.toString(lineasComentarios));
+        System.out.println(Arrays.toString(lineasLenguaje));
+        return String.join("\n", codigoOptimizado);
+    }
+    
+    private String traducirCodigo(String codigo) {
+        
+        return null;
+        
     }
 
 }

@@ -63,7 +63,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txaCodigo = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txaCompilado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,7 +74,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnTraducir.setText("Traducir");
+        btnTraducir.setText("Ejecutar");
         btnTraducir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTraducirActionPerformed(evt);
@@ -93,10 +93,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         txaCodigo.setRows(5);
         jScrollPane1.setViewportView(txaCodigo);
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txaCompilado.setEditable(false);
+        txaCompilado.setColumns(20);
+        txaCompilado.setRows(5);
+        jScrollPane2.setViewportView(txaCompilado);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +161,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void btnTraducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraducirActionPerformed
         AnalizadorCodigo compilador = new AnalizadorCodigo();
-        compilador.analizarCodigoFuente(this.txaCodigo.getText());
+        this.txaCompilado.setText(compilador.optimizarCodigo(this.txaCodigo.getText()));
+        compilador.analizarCodigoFuente(this.txaCompilado.getText());
         /*if (!this.tokensHTML.isEmpty()) {
             this.tokensHTML.clear();
         }
@@ -187,7 +188,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea txaCodigo;
+    private javax.swing.JTextArea txaCompilado;
     // End of variables declaration//GEN-END:variables
 }

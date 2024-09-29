@@ -86,7 +86,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnTraducir">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Traducir"/>
+        <Property name="text" type="java.lang.String" value="Ejecutar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTraducirActionPerformed"/>
@@ -134,7 +134,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTextArea2">
+        <Component class="javax.swing.JTextArea" name="txaCompilado">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
