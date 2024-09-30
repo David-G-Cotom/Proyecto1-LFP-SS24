@@ -8,44 +8,15 @@ package backend;
  *
  * @author Carlos Cotom
  */
-public class TokenEstado {
+public class TokenEstado extends Token{
     
-    private final static String TIPO_TOKEN = "Estado";
-    private int linea;
-    private int columna;
-    private String lexema;
-    private final static String LENGUAJE = "";
+    private final String TIPO_TOKEN = "Estado";
+    private final String LENGUAJE = "";
     private String expresionRegular;
 
     public TokenEstado(int linea, int columna, String lexema) {
-        this.linea = linea;
-        this.columna = columna;
-        this.lexema = lexema;
+        super(linea, columna, lexema);
         this.expresionRegular = lexema;
-    }
-
-    public int getLinea() {
-        return linea;
-    }
-
-    public void setLinea(int linea) {
-        this.linea = linea;
-    }
-
-    public int getColumna() {
-        return columna;
-    }
-
-    public void setColumna(int columna) {
-        this.columna = columna;
-    }
-
-    public String getLexema() {
-        return lexema;
-    }
-
-    public void setLexema(String lexema) {
-        this.lexema = lexema;
     }
 
     public String getExpresionRegular() {
@@ -56,18 +27,18 @@ public class TokenEstado {
         this.expresionRegular = expresionRegular;
     }
 
-    public static String getTIPO_TOKEN() {
+    public String getTIPO_TOKEN() {
         return TIPO_TOKEN;
     }
 
-    public static String getLENGUAJE() {
+    public String getLENGUAJE() {
         return LENGUAJE;
     }
 
     @Override
     public String toString() {
-        return "TokenEstado{" + "tipoToken = " + TIPO_TOKEN + ", linea = " + linea
-                + ", columna = " + columna + ", lexema = " + lexema
+        return "TokenEstado{" + "tipoToken = " + TIPO_TOKEN + ", linea = " + super.getLinea()
+                + ", columna = " + super.getColumna() + ", lexema = " + super.getLexema()
                 + ", lenguaje = " + LENGUAJE + ", expresionRegular = " + expresionRegular + '}';
     }
     

@@ -27,15 +27,14 @@ public class AnalizadorCodigo {
     private StringBuilder palabraTemporal;
     private ArrayList<String> bloquesCodigoHTML;
     private final AnalizadorLexicoHTML analizadorHTML = new AnalizadorLexicoHTML();
-    //private ArrayList<TokenHTML> tokensHTML = new ArrayList<>();
     private ArrayList<String> bloquesCodigoCSS;
     private final AnalizadorLexicoCSS analizadorCSS = new AnalizadorLexicoCSS();
-    //private ArrayList<TokenCSS> tokensCSS = new ArrayList<>();
     private ArrayList<String> bloquesCodigoJS;
     private final AnalizadorLexicoJS analizadorJS = new AnalizadorLexicoJS();
-    //private ArrayList<TokenJS> tokensJS = new ArrayList<>();
     private int linea;
     private int columna;
+    private ArrayList<Token> tokensAnalizados;
+    private ArrayList<Token> tokensOptimizados;
     
     private String codigoCompilado = "";
 
@@ -43,6 +42,8 @@ public class AnalizadorCodigo {
         this.bloquesCodigoHTML = new ArrayList<>();
         this.bloquesCodigoCSS = new ArrayList<>();
         this.bloquesCodigoJS = new ArrayList<>();
+        this.tokensAnalizados = new ArrayList<>();
+        this.tokensOptimizados = new ArrayList<>();
     }
 
     public String getCodigoCompilado() {
@@ -75,6 +76,22 @@ public class AnalizadorCodigo {
 
     public void setBloquesCodigoJS(ArrayList<String> bloquesCodigoJS) {
         this.bloquesCodigoJS = bloquesCodigoJS;
+    }
+
+    public ArrayList<Token> getTokensAnalizados() {
+        return tokensAnalizados;
+    }
+
+    public void setTokensAnalizados(ArrayList<Token> tokensAnalizados) {
+        this.tokensAnalizados = tokensAnalizados;
+    }
+
+    public ArrayList<Token> getTokensOptimizados() {
+        return tokensOptimizados;
+    }
+
+    public void setTokensOptimizados(ArrayList<Token> tokensOptimizados) {
+        this.tokensOptimizados = tokensOptimizados;
     }
 
     private void leerCodigo(String contenido) {
@@ -114,6 +131,7 @@ public class AnalizadorCodigo {
                         this.linea--;
                     }
                     TokenEstado tokenEstado = new TokenEstado(linea, columnaInicial, ">>[html]");
+                    this.tokensAnalizados.add(tokenEstado);
                     System.out.println(tokenEstado);
                     this.codigoCompilado += this.palabraTemporal.toString();
                     this.agregarCodigoHTML();
@@ -125,6 +143,7 @@ public class AnalizadorCodigo {
                         this.linea--;
                     }
                     TokenEstado tokenEstado = new TokenEstado(linea, columnaInicial, ">>[css]");
+                    this.tokensAnalizados.add(tokenEstado);
                     System.out.println(tokenEstado);
                     this.codigoCompilado += this.palabraTemporal.toString();
                     this.agregarCodigoCSS();
@@ -136,6 +155,7 @@ public class AnalizadorCodigo {
                         this.linea--;
                     }
                     TokenEstado tokenEstado = new TokenEstado(linea, columnaInicial, ">>[js]");
+                    this.tokensAnalizados.add(tokenEstado);
                     System.out.println(tokenEstado);
                     this.codigoCompilado += this.palabraTemporal.toString();
                     this.agregarCodigoJS();
@@ -177,7 +197,10 @@ public class AnalizadorCodigo {
         //this.bloquesCodigoHTML.add(contenido.toString());
         this.analizadorHTML.setLinea(linea);
         this.analizadorHTML.setColumna(columna);
-        this.analizadorHTML.getTokens(contenido.toString());
+        ArrayList<TokenHTML> tokensHTML = this.analizadorHTML.getTokens(contenido.toString());
+        for (TokenHTML tokenHTML : tokensHTML) {
+            this.tokensAnalizados.add(tokenHTML);
+        }
         System.out.println(this.analizadorHTML.getCodigoTraducido());
         this.codigoCompilado += this.analizadorHTML.getCodigoTraducido();
         this.bloquesCodigoHTML.add(this.analizadorHTML.getCodigoTraducido());
@@ -220,7 +243,10 @@ public class AnalizadorCodigo {
         this.bloquesCodigoCSS.add(contenido.toString());
         this.analizadorCSS.setLinea(linea);
         this.analizadorCSS.setColumna(columna);
-        this.analizadorCSS.getTokens(contenido.toString());
+        ArrayList<TokenCSS> tokensCSS = this.analizadorCSS.getTokens(contenido.toString());
+        for (TokenCSS tokenCSS : tokensCSS) {
+            this.tokensAnalizados.add(tokenCSS);
+        }
         linea = this.analizadorCSS.getLinea();
         columna = this.analizadorCSS.getColumna();
     }
@@ -259,7 +285,10 @@ public class AnalizadorCodigo {
         this.bloquesCodigoJS.add(contenido.toString());
         this.analizadorJS.setLinea(linea);
         this.analizadorJS.setColumna(columna);
-        this.analizadorJS.getTokens(contenido.toString());
+        ArrayList<TokenJS> tokensJS = this.analizadorJS.getTokens(contenido.toString());
+        for (TokenJS tokenJS : tokensJS) {
+            this.tokensAnalizados.add(tokenJS);
+        }
         linea = this.analizadorJS.getLinea();
         columna = this.analizadorJS.getColumna();
     }
@@ -314,28 +343,52 @@ public class AnalizadorCodigo {
             case "HTML" -> {
                 AnalizadorLexicoHTML comprobarComentarioHTML = new AnalizadorLexicoHTML();
                 ArrayList<TokenHTML> tokensHMTL = comprobarComentarioHTML.getTokens(lineaCodigo);
+                boolean hayComentarioHTML = false;
                 for (TokenHTML token : tokensHMTL) {
                     if (token.getTipoToken() == TipoTokenEnumHTML.COMENTARIO) {
-                        return true;
+                        hayComentarioHTML = true;
                     }
+                }
+                if (hayComentarioHTML) {
+                    for (TokenHTML tokenHTML : tokensHMTL) {
+                        tokenHTML.setLinea(indice);
+                        this.tokensOptimizados.add(tokenHTML);
+                    }
+                    return true;
                 }
             }
             case "CSS" -> {
                 AnalizadorLexicoCSS comprobarComentarioCSS = new AnalizadorLexicoCSS();
                 ArrayList<TokenCSS> tokensCSS = comprobarComentarioCSS.getTokens(lineaCodigo);
+                boolean hayComentarioCSS = false;
                 for (TokenCSS token : tokensCSS) {
                     if (token.getTipoToken() == TipoTokenEnumCSS.COMENTARIO) {
-                        return true;
+                        hayComentarioCSS = true;
                     }
+                }
+                if (hayComentarioCSS) {
+                    for (TokenCSS tokenCSS : tokensCSS) {
+                        tokenCSS.setLinea(indice);
+                        this.tokensOptimizados.add(tokenCSS);
+                    }
+                    return true;
                 }
             }
             case "JS" -> {
                 AnalizadorLexicoJS comprobarComentarioJS = new AnalizadorLexicoJS();
                 ArrayList<TokenJS> tokensJS = comprobarComentarioJS.getTokens(lineaCodigo);
+                boolean hayComentarioJS = false;
                 for (TokenJS token : tokensJS) {
                     if (token.getTipoToken() == TipoTokenEnumJS.COMENTARIO) {
-                        return true;
+                        hayComentarioJS = true;
                     }
+                }
+                if (hayComentarioJS) {
+                    for (TokenJS tokenJS : tokensJS) {
+                        tokenJS.setLinea(indice);
+                        this.tokensOptimizados.add(tokenJS);
+                    }
+                    return true;
                 }
             }
             default -> {

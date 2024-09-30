@@ -4,24 +4,21 @@
  */
 package backend.css.model;
 
+import backend.Token;
+
 /**
  *
  * @author Carlos Cotom
  */
-public class TokenCSS {
+public class TokenCSS extends Token{
     
     private TipoTokenEnumCSS tipoToken;
-    private int linea;
-    private int columan;
-    private String lexema;
     private final String LENGUAJE = "CSS";
     private String expresionRegular;
 
     public TokenCSS(TipoTokenEnumCSS tipoToken, int linea, int columan, String lexema) {
+        super(linea, columan, lexema);
         this.tipoToken = tipoToken;
-        this.linea = linea;
-        this.columan = columan;
-        this.lexema = lexema;
         this.expresionRegular = this.tipoToken.getExpresionRegular();
         this.verificarExpresionRegular();
     }
@@ -32,30 +29,6 @@ public class TokenCSS {
 
     public void setTipoToken(TipoTokenEnumCSS tipoToken) {
         this.tipoToken = tipoToken;
-    }
-
-    public int getLinea() {
-        return linea;
-    }
-
-    public void setLinea(int linea) {
-        this.linea = linea;
-    }
-
-    public int getColuman() {
-        return columan;
-    }
-
-    public void setColuman(int columan) {
-        this.columan = columan;
-    }
-
-    public String getLexema() {
-        return lexema;
-    }
-
-    public void setLexema(String lexema) {
-        this.lexema = lexema;
     }
 
     public String getLENGUAJE() {
@@ -72,14 +45,14 @@ public class TokenCSS {
     
     private void verificarExpresionRegular() {
         if (this.expresionRegular.equals("")) {
-            this.expresionRegular = lexema;
+            this.expresionRegular = super.getLexema();
         }
     }
 
     @Override
     public String toString() {
-        return "TokenCSS{" + "tipoToken = " + tipoToken + ", linea = " + linea +
-                ", columan = " + columan + ", lexema = " + lexema +
+        return "TokenCSS{" + "tipoToken = " + tipoToken + ", linea = " + super.getLinea() +
+                ", columan = " + super.getColumna() + ", lexema = " + super.getLexema() +
                 ", lenguaje = " + LENGUAJE +
                 ", expresionRegular = " + expresionRegular + '}';
     }
