@@ -74,7 +74,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnTraducir.setText("Ejecutar");
+        btnTraducir.setText("Compilar");
         btnTraducir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTraducirActionPerformed(evt);
@@ -161,8 +161,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void btnTraducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraducirActionPerformed
         AnalizadorCodigo compilador = new AnalizadorCodigo();
-        this.txaCompilado.setText(compilador.optimizarCodigo(this.txaCodigo.getText()));
-        compilador.analizarCodigoFuente(this.txaCompilado.getText());
+        String codigoOptimizado = compilador.optimizarCodigo(this.txaCodigo.getText());
+        compilador.analizarCodigoFuente(codigoOptimizado);
+        this.txaCompilado.setText(compilador.getCodigoCompilado());
         /*if (!this.tokensHTML.isEmpty()) {
             this.tokensHTML.clear();
         }

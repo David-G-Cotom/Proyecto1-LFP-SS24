@@ -5,11 +5,14 @@
 package backend;
 
 import backend.css.model.AnalizadorLexicoCSS;
-//import backend.css.model.TokenCSS;
+import backend.css.model.TipoTokenEnumCSS;
+import backend.css.model.TokenCSS;
 import backend.html.model.AnalizadorLexicoHTML;
-//import backend.html.model.TokenHTML;
+import backend.html.model.TipoTokenEnumHTML;
+import backend.html.model.TokenHTML;
 import backend.js.model.AnalizadorLexicoJS;
-//import backend.js.model.TokenJS;
+import backend.js.model.TipoTokenEnumJS;
+import backend.js.model.TokenJS;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,8 +36,8 @@ public class AnalizadorCodigo {
     //private ArrayList<TokenJS> tokensJS = new ArrayList<>();
     private int linea;
     private int columna;
-
-    private String codigoCompilado;
+    
+    private String codigoCompilado = "";
 
     public AnalizadorCodigo() {
         this.bloquesCodigoHTML = new ArrayList<>();
@@ -88,6 +91,7 @@ public class AnalizadorCodigo {
                     }
                     TokenEstado tokenEstado = new TokenEstado(linea, columnaInicial, ">>[html]");
                     System.out.println(tokenEstado);
+                    this.codigoCompilado += this.palabraTemporal.toString();
                     this.agregarCodigoHTML();
                 }
                 case ">>[css]" -> {
@@ -98,6 +102,7 @@ public class AnalizadorCodigo {
                     }
                     TokenEstado tokenEstado = new TokenEstado(linea, columnaInicial, ">>[css]");
                     System.out.println(tokenEstado);
+                    this.codigoCompilado += this.palabraTemporal.toString();
                     this.agregarCodigoCSS();
                 }
                 case ">>[js]" -> {
@@ -108,6 +113,7 @@ public class AnalizadorCodigo {
                     }
                     TokenEstado tokenEstado = new TokenEstado(linea, columnaInicial, ">>[js]");
                     System.out.println(tokenEstado);
+                    this.codigoCompilado += this.palabraTemporal.toString();
                     this.agregarCodigoJS();
                 }
             }
@@ -144,10 +150,14 @@ public class AnalizadorCodigo {
             }
         }
         System.out.println(contenido.toString());
-        this.bloquesCodigoHTML.add(contenido.toString());
+        //this.bloquesCodigoHTML.add(contenido.toString());
         this.analizadorHTML.setLinea(linea);
         this.analizadorHTML.setColumna(columna);
         this.analizadorHTML.getTokens(contenido.toString());
+        System.out.println(this.analizadorHTML.getCodigoTraducido());
+        this.codigoCompilado += this.analizadorHTML.getCodigoTraducido();
+        this.bloquesCodigoHTML.add(this.analizadorHTML.getCodigoTraducido());
+        this.analizadorHTML.setCodigoTraducido("");
         linea = this.analizadorHTML.getLinea();
         columna = this.analizadorHTML.getColumna();
     }
@@ -182,6 +192,7 @@ public class AnalizadorCodigo {
             }
         }
         System.out.println(contenido.toString());
+        this.codigoCompilado += contenido.toString();
         this.bloquesCodigoCSS.add(contenido.toString());
         this.analizadorCSS.setLinea(linea);
         this.analizadorCSS.setColumna(columna);
@@ -220,6 +231,7 @@ public class AnalizadorCodigo {
             }
         }
         System.out.println(contenido.toString());
+        this.codigoCompilado += contenido.toString();
         this.bloquesCodigoJS.add(contenido.toString());
         this.analizadorJS.setLinea(linea);
         this.analizadorJS.setColumna(columna);
@@ -252,9 +264,11 @@ public class AnalizadorCodigo {
             }
             //Eliminar lineas con comentarios
             if (lineasCodigo[i].contains("//")) {
-                lineasComentarios[i] = lineasCodigo[i];
-                codigoOptimizado.add("");
-                continue;
+                if (this.hayComentario(lineasCodigo[i], lineasLenguaje, i)) {
+                    lineasComentarios[i] = lineasCodigo[i];
+                    codigoOptimizado.add("");
+                    continue;
+                }
             }
             //AgregarLinea al codigo optimizado
             codigoOptimizado.add(lineasCodigo[i]);
@@ -264,10 +278,47 @@ public class AnalizadorCodigo {
         return String.join("\n", codigoOptimizado);
     }
     
-    private String traducirCodigo(String codigo) {
-        
-        return null;
-        
+    private boolean hayComentario(String lineaCodigo, String[] lenguajes, int indice) {
+        String lenguaje = "";
+        for (int i = indice; i >= 0; i--) {
+            if (lenguajes[i] != null) {
+                lenguaje = lenguajes[i];
+                break;
+            }
+        }
+        switch (lenguaje) {
+            case "HTML" -> {
+                AnalizadorLexicoHTML comprobarComentarioHTML = new AnalizadorLexicoHTML();
+                ArrayList<TokenHTML> tokensHMTL = comprobarComentarioHTML.getTokens(lineaCodigo);
+                for (TokenHTML token : tokensHMTL) {
+                    if (token.getTipoToken() == TipoTokenEnumHTML.COMENTARIO) {
+                        return true;
+                    }
+                }
+            }
+            case "CSS" -> {
+                AnalizadorLexicoCSS comprobarComentarioCSS = new AnalizadorLexicoCSS();
+                ArrayList<TokenCSS> tokensCSS = comprobarComentarioCSS.getTokens(lineaCodigo);
+                for (TokenCSS token : tokensCSS) {
+                    if (token.getTipoToken() == TipoTokenEnumCSS.COMENTARIO) {
+                        return true;
+                    }
+                }
+            }
+            case "JS" -> {
+                AnalizadorLexicoJS comprobarComentarioJS = new AnalizadorLexicoJS();
+                ArrayList<TokenJS> tokensJS = comprobarComentarioJS.getTokens(lineaCodigo);
+                for (TokenJS token : tokensJS) {
+                    if (token.getTipoToken() == TipoTokenEnumJS.COMENTARIO) {
+                        return true;
+                    }
+                }
+            }
+            default -> {
+                return false;
+            }
+        }
+        return false;
     }
 
 }

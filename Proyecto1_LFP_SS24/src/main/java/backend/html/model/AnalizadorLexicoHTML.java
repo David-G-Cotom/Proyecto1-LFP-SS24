@@ -26,6 +26,7 @@ public class AnalizadorLexicoHTML {
     private StringBuilder palabraTemporal;
     private final ControladorEstadoAceptacionHTML estadoAceptacion;
     private ArrayList<TokenHTML> tokensAnalizados;
+    private String codigoTraducido = "";
 
     public AnalizadorLexicoHTML() {
         this.funsionTransicion = new ControladorFunsionTransicionHTML();
@@ -45,6 +46,14 @@ public class AnalizadorLexicoHTML {
 
     public int getColumna() {
         return columna;
+    }
+
+    public String getCodigoTraducido() {
+        return codigoTraducido;
+    }
+
+    public void setCodigoTraducido(String codigoTraducido) {
+        this.codigoTraducido = codigoTraducido;
     }
 
     public void setColumna(int columna) {
@@ -71,11 +80,13 @@ public class AnalizadorLexicoHTML {
                 this.posicionContenido++;
                 this.linea++;
                 this.columna = 0;
+                this.codigoTraducido += "\n";
                 continue;
             }
             if (this.alfabetoController.isEspacioBlanco(this.contenido.charAt(this.posicionContenido))) {
                 this.posicionContenido++;
                 this.columna++;
+                this.codigoTraducido += " ";
                 continue;
             }
             break;
@@ -105,6 +116,7 @@ public class AnalizadorLexicoHTML {
             charActual = this.contenido.charAt(this.posicionContenido);
             //System.out.println("Caracter Actual: " + charActual);
             if (charActual == '\r') {
+                this.codigoTraducido += "\r";
                 break;
             }
             alfabetoSimbolo = this.alfabetoController.getAlfabeto(charActual);
@@ -118,6 +130,7 @@ public class AnalizadorLexicoHTML {
             this.posicionContenido++;
             this.palabraTemporal.append(charActual);
             if (alfabetoSimbolo == AlfabetoEnumHTML.NUEVA_LINEA) {
+                this.codigoTraducido += "\n";
                 this.linea++;
             }
             if (estadoTemporal.equals(EstadoEnumHTML.SE)) {
@@ -165,6 +178,7 @@ public class AnalizadorLexicoHTML {
             charActual = this.contenido.charAt(this.posicionContenido);
             //System.out.println("Caracter Actual: " + charActual);
             if (charActual == '\r') {
+                this.codigoTraducido += "\r";
                 break;
             }
             alfabetoSimbolo = this.alfabetoController.getAlfabeto(charActual);
@@ -205,67 +219,36 @@ public class AnalizadorLexicoHTML {
     }
 
     private TipoTokenEnumHTML revisarPalabraReservada(String palabra) {
-        switch (palabra.toLowerCase()) {
-            case "class":
-            case "href":
-            case "onclick":
-            case "id":
-            case "style":
-            case "type":
-            case "placeholder":
-            case "required":
-            case "name":
-                return TipoTokenEnumHTML.PALABRA_RESERVADA;
-            case "=":
-                return TipoTokenEnumHTML.PALABRA_RESERVADA_IGUAL;
-            default:
-                return null;
-        }
+        return switch (palabra.toLowerCase()) {
+            case "class", "href", "onclick", "id", "style", "type", "placeholder", "required", "name" -> TipoTokenEnumHTML.PALABRA_RESERVADA;
+            case "=" -> TipoTokenEnumHTML.PALABRA_RESERVADA_IGUAL;
+            default -> null;
+        };
     }
 
     private TipoTokenEnumHTML revisarEtiqueta(String palabra) {
-        switch (palabra.toLowerCase()) {
-            case "principal":
-                return TipoTokenEnumHTML.ETIQUETA_PRINCIPAL;
-            case "encabezado":
-                return TipoTokenEnumHTML.ETIQUETA_ENCABEZADO;
-            case "navegacion":
-                return TipoTokenEnumHTML.ETIQUETA_NAVEGACION;
-            case "apartado":
-                return TipoTokenEnumHTML.ETIQUETA_APARTADO;
-            case "listaordenada":
-                return TipoTokenEnumHTML.ETIQUETA_LIST_ORDERED;
-            case "listadesordenada":
-                return TipoTokenEnumHTML.ETIQUETA_LIST_UNORDERED;
-            case "itemlista":
-                return TipoTokenEnumHTML.ETIQUETA_LIST_ITEM;
-            case "anclaje":
-                return TipoTokenEnumHTML.ETIQUETA_ANCLAJE;
-            case "contenedor":
-                return TipoTokenEnumHTML.ETIQUETA_CONTENEDOR;
-            case "seccion":
-                return TipoTokenEnumHTML.ETIQUETA_SECCION;
-            case "articulo":
-                return TipoTokenEnumHTML.ETIQUETA_ARTICULO;
-            case "parrafo":
-                return TipoTokenEnumHTML.ETIQUETA_PARRAFO;
-            case "span":
-                return TipoTokenEnumHTML.ETIQUETA_SPAN;
-            case "entrada":
-                return TipoTokenEnumHTML.ETIQUETA_ENTRADA;
-            case "formulario":
-                return TipoTokenEnumHTML.ETIQUETA_FORMULARIO;
-            case "label":
-                return TipoTokenEnumHTML.ETIQUETA_LABEL;
-            case "area":
-                return TipoTokenEnumHTML.ETIQUETA_AREA;
-            case "boton":
-                return TipoTokenEnumHTML.ETIQUETA_BOTON;
-            case "piepagina":
-                return TipoTokenEnumHTML.ETIQUETA_PIE_PAGINA;
-            default:
-                return null;
-        }
+        return switch (palabra.toLowerCase()) {
+            case "principal" -> TipoTokenEnumHTML.ETIQUETA_PRINCIPAL;
+            case "encabezado" -> TipoTokenEnumHTML.ETIQUETA_ENCABEZADO;
+            case "navegacion" -> TipoTokenEnumHTML.ETIQUETA_NAVEGACION;
+            case "apartado" -> TipoTokenEnumHTML.ETIQUETA_APARTADO;
+            case "listaordenada" -> TipoTokenEnumHTML.ETIQUETA_LIST_ORDERED;
+            case "listadesordenada" -> TipoTokenEnumHTML.ETIQUETA_LIST_UNORDERED;
+            case "itemlista" -> TipoTokenEnumHTML.ETIQUETA_LIST_ITEM;
+            case "anclaje" -> TipoTokenEnumHTML.ETIQUETA_ANCLAJE;
+            case "contenedor" -> TipoTokenEnumHTML.ETIQUETA_CONTENEDOR;
+            case "seccion" -> TipoTokenEnumHTML.ETIQUETA_SECCION;
+            case "articulo" -> TipoTokenEnumHTML.ETIQUETA_ARTICULO;
+            case "parrafo" -> TipoTokenEnumHTML.ETIQUETA_PARRAFO;
+            case "span" -> TipoTokenEnumHTML.ETIQUETA_SPAN;
+            case "entrada" -> TipoTokenEnumHTML.ETIQUETA_ENTRADA;
+            case "formulario" -> TipoTokenEnumHTML.ETIQUETA_FORMULARIO;
+            case "label" -> TipoTokenEnumHTML.ETIQUETA_LABEL;
+            case "area" -> TipoTokenEnumHTML.ETIQUETA_AREA;
+            case "boton" -> TipoTokenEnumHTML.ETIQUETA_BOTON;
+            case "piepagina" -> TipoTokenEnumHTML.ETIQUETA_PIE_PAGINA;
+            default -> null;
+        };
     }
 
     private TipoTokenEnumHTML revisarEtiquetaTitulo(String palabra) {
@@ -291,6 +274,11 @@ public class AnalizadorLexicoHTML {
                     tokensAnalizados.add(isErrorSecuencia(tokensAnalizados, token));
                 } else {
                     tokensAnalizados.add(token);
+                }
+                if (!token.getTipoToken().getTraduccion().equals("")) {
+                    this.codigoTraducido += token.getTipoToken().getTraduccion();
+                } else {
+                    this.codigoTraducido += token.getLexema();
                 }
             }
         } catch (IOException e) {
