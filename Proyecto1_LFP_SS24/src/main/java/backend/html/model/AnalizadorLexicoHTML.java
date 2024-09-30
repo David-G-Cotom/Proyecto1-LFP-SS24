@@ -220,7 +220,7 @@ public class AnalizadorLexicoHTML {
 
     private TipoTokenEnumHTML revisarPalabraReservada(String palabra) {
         return switch (palabra.toLowerCase()) {
-            case "class", "href", "onclick", "id", "style", "type", "placeholder", "required", "name" -> TipoTokenEnumHTML.PALABRA_RESERVADA;
+            case "class", "href", "onclick", "id", "style", "type", "placeholder", "required", "name", "value" -> TipoTokenEnumHTML.PALABRA_RESERVADA;
             case "=" -> TipoTokenEnumHTML.PALABRA_RESERVADA_IGUAL;
             default -> null;
         };

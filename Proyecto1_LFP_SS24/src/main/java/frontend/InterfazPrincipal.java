@@ -5,6 +5,7 @@
 package frontend;
 
 import backend.AnalizadorCodigo;
+import backend.DocumentoHTML;
 import backend.html.model.AnalizadorLexicoHTML;
 import backend.html.model.TokenHTML;
 import backend.css.model.AnalizadorLexicoCSS;
@@ -16,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -30,6 +32,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private final AnalizadorLexicoCSS analizadorCSS;
     private ArrayList<TokenJS> tokensJS;
     private final AnalizadorLexicoJS analizadorJS;
+    private AnalizadorCodigo compilador;
     
     /**
      * Creates new form InterfazPrincipal
@@ -42,6 +45,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         this.tokensCSS = new ArrayList<>();
         this.analizadorJS = new AnalizadorLexicoJS();
         this.tokensJS = new ArrayList<>();
+        this.btnExportar.setEnabled(false);
     }
 
     /**
@@ -82,6 +86,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         });
 
         btnExportar.setText("Exportar HTML");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarActionPerformed(evt);
+            }
+        });
 
         btnReporteTokens.setText("Reporte de Tokens");
 
@@ -160,10 +169,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCargaActionPerformed
 
     private void btnTraducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraducirActionPerformed
-        AnalizadorCodigo compilador = new AnalizadorCodigo();
+        this.compilador = new AnalizadorCodigo();
+        if (this.txaCodigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Debe de Ingresar Codigo Fuente");
+            return;
+        }
         String codigoOptimizado = compilador.optimizarCodigo(this.txaCodigo.getText());
         compilador.analizarCodigoFuente(codigoOptimizado);
         this.txaCompilado.setText(compilador.getCodigoCompilado());
+        this.btnExportar.setEnabled(true);
         /*if (!this.tokensHTML.isEmpty()) {
             this.tokensHTML.clear();
         }
@@ -177,6 +191,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         }
         this.tokensJS = this.analizadorJS.getTokens(this.txaCodigo.getText());*/
     }//GEN-LAST:event_btnTraducirActionPerformed
+
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        DocumentoHTML documentoHTML = new DocumentoHTML();
+        documentoHTML.setCodigoHTML(this.compilador.getBloquesCodigoHTML());
+        documentoHTML.setCodigoCSS(this.compilador.getBloquesCodigoCSS());
+        documentoHTML.setCodigoJS(this.compilador.getBloquesCodigoJS());
+        documentoHTML.generarDocumento();
+    }//GEN-LAST:event_btnExportarActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

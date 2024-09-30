@@ -25,13 +25,13 @@ public class AnalizadorCodigo {
     private int posicionContenido;
     private String codigoFuente;
     private StringBuilder palabraTemporal;
-    private final ArrayList<String> bloquesCodigoHTML;
+    private ArrayList<String> bloquesCodigoHTML;
     private final AnalizadorLexicoHTML analizadorHTML = new AnalizadorLexicoHTML();
     //private ArrayList<TokenHTML> tokensHTML = new ArrayList<>();
-    private final ArrayList<String> bloquesCodigoCSS;
+    private ArrayList<String> bloquesCodigoCSS;
     private final AnalizadorLexicoCSS analizadorCSS = new AnalizadorLexicoCSS();
     //private ArrayList<TokenCSS> tokensCSS = new ArrayList<>();
-    private final ArrayList<String> bloquesCodigoJS;
+    private ArrayList<String> bloquesCodigoJS;
     private final AnalizadorLexicoJS analizadorJS = new AnalizadorLexicoJS();
     //private ArrayList<TokenJS> tokensJS = new ArrayList<>();
     private int linea;
@@ -51,6 +51,30 @@ public class AnalizadorCodigo {
 
     public void setCodigoCompilado(String codigoCompilado) {
         this.codigoCompilado = codigoCompilado;
+    }
+
+    public ArrayList<String> getBloquesCodigoHTML() {
+        return bloquesCodigoHTML;
+    }
+
+    public void setBloquesCodigoHTML(ArrayList<String> bloquesCodigoHTML) {
+        this.bloquesCodigoHTML = bloquesCodigoHTML;
+    }
+
+    public ArrayList<String> getBloquesCodigoCSS() {
+        return bloquesCodigoCSS;
+    }
+
+    public void setBloquesCodigoCSS(ArrayList<String> bloquesCodigoCSS) {
+        this.bloquesCodigoCSS = bloquesCodigoCSS;
+    }
+
+    public ArrayList<String> getBloquesCodigoJS() {
+        return bloquesCodigoJS;
+    }
+
+    public void setBloquesCodigoJS(ArrayList<String> bloquesCodigoJS) {
+        this.bloquesCodigoJS = bloquesCodigoJS;
     }
 
     private void leerCodigo(String contenido) {

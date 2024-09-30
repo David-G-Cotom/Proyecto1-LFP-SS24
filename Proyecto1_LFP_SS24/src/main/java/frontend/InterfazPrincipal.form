@@ -96,6 +96,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Exportar HTML"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExportarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnReporteTokens">
       <Properties>
