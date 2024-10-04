@@ -27,6 +27,7 @@ public class AnalizadorLexicoCSS {
     private StringBuilder palabraTemporal;
     private final ControladorEstadoAceptacionCSS estadoAceptacion;
     private ArrayList<TokenCSS> tokensAnalizados;
+    private String codigoTraducido = "";
 
     public AnalizadorLexicoCSS() {
         this.funsionTransicion = new ControladorFunsionTransicionCSS();
@@ -52,6 +53,14 @@ public class AnalizadorLexicoCSS {
         this.columna = columna;
     }
 
+    public String getCodigoTraducido() {
+        return codigoTraducido;
+    }
+
+    public void setCodigoTraducido(String codigoTraducido) {
+        this.codigoTraducido = codigoTraducido;
+    }
+
     public void leerContenido(String contenido) {
         this.contenido = new String(contenido.getBytes());
         this.isArchivoLeido = true;
@@ -72,11 +81,13 @@ public class AnalizadorLexicoCSS {
                 this.posicionContenido++;
                 this.linea++;
                 this.columna = 0;
+                this.codigoTraducido += "\n";
                 continue;
             }
             if (this.alfabetoController.isEspacioBlanco(this.contenido.charAt(this.posicionContenido))) {
                 this.posicionContenido++;
                 this.columna++;
+                this.codigoTraducido += " ";
                 continue;
             }
             break;
@@ -101,6 +112,7 @@ public class AnalizadorLexicoCSS {
             charActual = contenido.charAt(this.posicionContenido);
             //System.out.println("Caracter Actual: " + charActual);
             if (charActual == '\r') {
+                this.codigoTraducido += "\r";
                 break;
             }
             alfabetoSimbolo = this.alfabetoController.getAlfabeto(charActual);
@@ -114,6 +126,7 @@ public class AnalizadorLexicoCSS {
             this.posicionContenido++;
             this.palabraTemporal.append(charActual);
             if (alfabetoSimbolo == AlfabetoEnumCSS.NUEVA_LINEA) {
+                this.codigoTraducido += "\n";
                 this.linea++;
             }
             if (estadoTemporal.equals(EstadoEnumCSS.SE)) {
@@ -222,122 +235,24 @@ public class AnalizadorLexicoCSS {
     }
 
     private TipoTokenEnumCSS revisarEtiquetaTipo(String palabra) {
-        switch (palabra.toLowerCase()) {
-            case "body":
-            case "header":
-            case "main":
-            case "nav":
-            case "aside":
-            case "div":
-            case "ul":
-            case "ol":
-            case "li":
-            case "a":
-            case "h1":
-            case "h2":
-            case "h3":
-            case "h4":
-            case "h5":
-            case "h6":
-            case "p":
-            case "span":
-            case "label":
-            case "textarea":
-            case "button":
-            case "section":
-            case "article":
-            case "footer":
-                return TipoTokenEnumCSS.ETIQUETA_TIPO;
-            default:
-                return null;
-        }
+        return switch (palabra.toLowerCase()) {
+            case "body", "header", "main", "nav", "aside", "div", "ul", "ol", "li", "a", "h1", "h2", "h3", "h4", "h5", "h6", "p", "span", "label", "textarea", "button", "section", "article", "footer" -> TipoTokenEnumCSS.ETIQUETA_TIPO;
+            default -> null;
+        };
     }
 
     private TipoTokenEnumCSS revisarRegla(String palabra) {
-        switch (palabra.toLowerCase()) {
-            case "color":
-            case "background-color":
-            case "background":
-            case "font-size":
-            case "font-weight":
-            case "font-family":
-            case "font-align":
-            case "width":
-            case "height":
-            case "min-width":
-            case "min-height":
-            case "max-width":
-            case "max-height":
-            case "display":
-            case "inline":
-            case "block":
-            case "inline-block":
-            case "flex":
-            case "grid":
-            case "none":
-            case "margin":
-            case "border":
-            case "padding":
-            case "content":
-            case "border-color":
-            case "border-style":
-            case "border-width":
-            case "border-top":
-            case "border-bottom":
-            case "border-left":
-            case "border-right":
-            case "box-sizing":
-            case "border-box":
-            case "position":
-            case "static":
-            case "relative":
-            case "absolute":
-            case "sticky":
-            case "fixed":
-            case "top":
-            case "bottom":
-            case "left":
-            case "right":
-            case "z-index":
-            case "justify-content":
-            case "align-items":
-            case "border-radius":
-            case "auto":
-            case "float":
-            case "list-style":
-            case "text-align":
-            case "box-shadow":
-                return TipoTokenEnumCSS.REGLA;
-            default:
-                return null;
-        }
+        return switch (palabra.toLowerCase()) {
+            case "color", "background-color", "background", "font-size", "font-weight", "font-family", "font-align", "width", "height", "min-width", "min-height", "max-width", "max-height", "display", "inline", "block", "inline-block", "flex", "grid", "none", "margin", "border", "padding", "content", "border-color", "border-style", "border-width", "border-top", "border-bottom", "border-left", "border-right", "box-sizing", "border-box", "position", "static", "relative", "absolute", "sticky", "fixed", "top", "bottom", "left", "right", "z-index", "justify-content", "align-items", "border-radius", "auto", "float", "list-style", "text-align", "box-shadow" -> TipoTokenEnumCSS.REGLA;
+            default -> null;
+        };
     }
 
     private TipoTokenEnumCSS revisarOtros(String palabra) {
-        switch (palabra.toLowerCase()) {
-            case "px":
-            case "%":
-            case "rem":
-            case "em":
-            case "vw":
-            case "vh":
-            case ":hover":
-            case ":active":
-            case ":not()":
-            case ":nth-child()":
-            case "odd":
-            case "even":
-            case "::before":
-            case "::after":
-            case ":":
-            case ";":
-            case ",":
-            case "(":
-            case ")":
-                return TipoTokenEnumCSS.OTROS;
-            default:
-                return null;
-        }
+        return switch (palabra.toLowerCase()) {
+            case "px", "%", "rem", "em", "vw", "vh", ":hover", ":active", ":not()", ":nth-child()", "odd", "even", "::before", "::after", ":", ";", ",", "(", ")", "=", "[", "]", "\"" -> TipoTokenEnumCSS.OTROS;
+            default -> null;
+        };
     }
 
     private TipoTokenEnumCSS revisarColor(String palabra) {
@@ -377,6 +292,9 @@ public class AnalizadorLexicoCSS {
                 TokenCSS token = this.getToken();
                 tokensAnalizados.add(token);
                 System.out.println(token);
+                if (token.getTipoToken() != TipoTokenEnumCSS.ERROR) {
+                    this.codigoTraducido += token.getLexema();
+                }
             }
         } catch (IOException e) {
             System.out.println("----------------ERROR---------------------");

@@ -35,6 +35,7 @@ public class AnalizadorCodigo {
     private int columna;
     private ArrayList<Token> tokensAnalizados;
     private ArrayList<Token> tokensOptimizados;
+    private ArrayList<Token> tokensError;
     
     private String codigoCompilado = "";
 
@@ -44,6 +45,7 @@ public class AnalizadorCodigo {
         this.bloquesCodigoJS = new ArrayList<>();
         this.tokensAnalizados = new ArrayList<>();
         this.tokensOptimizados = new ArrayList<>();
+        this.tokensError = new ArrayList<>();
     }
 
     public String getCodigoCompilado() {
@@ -92,6 +94,14 @@ public class AnalizadorCodigo {
 
     public void setTokensOptimizados(ArrayList<Token> tokensOptimizados) {
         this.tokensOptimizados = tokensOptimizados;
+    }
+
+    public ArrayList<Token> getTokensError() {
+        return tokensError;
+    }
+
+    public void setTokensError(ArrayList<Token> tokensError) {
+        this.tokensError = tokensError;
     }
 
     private void leerCodigo(String contenido) {
@@ -199,7 +209,11 @@ public class AnalizadorCodigo {
         this.analizadorHTML.setColumna(columna);
         ArrayList<TokenHTML> tokensHTML = this.analizadorHTML.getTokens(contenido.toString());
         for (TokenHTML tokenHTML : tokensHTML) {
-            this.tokensAnalizados.add(tokenHTML);
+            if (tokenHTML.getTipoToken() == TipoTokenEnumHTML.ERROR) {
+                this.tokensError.add(tokenHTML);
+            } else {
+                this.tokensAnalizados.add(tokenHTML);
+            }
         }
         System.out.println(this.analizadorHTML.getCodigoTraducido());
         this.codigoCompilado += this.analizadorHTML.getCodigoTraducido();
@@ -239,14 +253,21 @@ public class AnalizadorCodigo {
             }
         }
         System.out.println(contenido.toString());
-        this.codigoCompilado += contenido.toString();
-        this.bloquesCodigoCSS.add(contenido.toString());
         this.analizadorCSS.setLinea(linea);
         this.analizadorCSS.setColumna(columna);
         ArrayList<TokenCSS> tokensCSS = this.analizadorCSS.getTokens(contenido.toString());
         for (TokenCSS tokenCSS : tokensCSS) {
-            this.tokensAnalizados.add(tokenCSS);
+            if (tokenCSS.getTipoToken() == TipoTokenEnumCSS.ERROR) {
+                this.tokensError.add(tokenCSS);
+            } else {
+                this.tokensAnalizados.add(tokenCSS);
+            }
         }
+        System.out.println("CODIGO COMPILADO DE CSS");
+        System.out.println(this.analizadorCSS.getCodigoTraducido());
+        this.codigoCompilado += this.analizadorCSS.getCodigoTraducido();
+        this.bloquesCodigoCSS.add(this.analizadorCSS.getCodigoTraducido());
+        this.analizadorCSS.setCodigoTraducido("");
         linea = this.analizadorCSS.getLinea();
         columna = this.analizadorCSS.getColumna();
     }
@@ -281,14 +302,21 @@ public class AnalizadorCodigo {
             }
         }
         System.out.println(contenido.toString());
-        this.codigoCompilado += contenido.toString();
-        this.bloquesCodigoJS.add(contenido.toString());
         this.analizadorJS.setLinea(linea);
         this.analizadorJS.setColumna(columna);
         ArrayList<TokenJS> tokensJS = this.analizadorJS.getTokens(contenido.toString());
         for (TokenJS tokenJS : tokensJS) {
-            this.tokensAnalizados.add(tokenJS);
+            if (tokenJS.getTipoToken() == TipoTokenEnumJS.ERROR) {
+                this.tokensError.add(tokenJS);
+            } else {
+                this.tokensAnalizados.add(tokenJS);
+            }
         }
+        System.out.println("CODIGO COMPILADO DE JS");
+        System.out.println(this.analizadorJS.getCodigoTraducido());
+        this.codigoCompilado += this.analizadorJS.getCodigoTraducido();
+        this.bloquesCodigoJS.add(this.analizadorJS.getCodigoTraducido());
+        this.analizadorJS.setCodigoTraducido("");
         linea = this.analizadorJS.getLinea();
         columna = this.analizadorJS.getColumna();
     }
@@ -328,7 +356,7 @@ public class AnalizadorCodigo {
         }
         System.out.println(Arrays.toString(lineasComentarios));
         System.out.println(Arrays.toString(lineasLenguaje));
-        return String.join("\n", codigoOptimizado);
+        return this.hacerPreTraduccion(String.join("\n", codigoOptimizado));
     }
     
     private boolean hayComentario(String lineaCodigo, String[] lenguajes, int indice) {
@@ -396,6 +424,33 @@ public class AnalizadorCodigo {
             }
         }
         return false;
+    }
+    
+    private String hacerPreTraduccion(String codigo) {
+        String code = new String(codigo.getBytes());
+        int contentPosition = 0;
+        ArrayList<Character> content = new ArrayList<>();
+        char charActual;
+        int positionApertura = 0;
+        while (contentPosition < code.length()) {
+            charActual = code.charAt(contentPosition);
+            contentPosition++;
+            switch (charActual) {
+                case '<' -> {
+                    positionApertura = contentPosition;
+                    content.add(charActual);
+                }
+                case '/' -> content.add(positionApertura, charActual);
+                default -> content.add(charActual);
+            }
+        }
+        StringBuilder codeTraduction = new StringBuilder();
+        for (Character character : content) {
+            codeTraduction.append(character);
+        }
+        System.out.println("CODIGO FUENTE OPTIMIZADO y PRE-TRADUCIDO");
+        System.out.println(codeTraduction.toString());
+        return codeTraduction.toString();
     }
 
 }

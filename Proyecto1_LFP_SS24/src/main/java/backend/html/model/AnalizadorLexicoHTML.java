@@ -275,10 +275,12 @@ public class AnalizadorLexicoHTML {
                 } else {
                     tokensAnalizados.add(token);
                 }
-                if (!token.getTipoToken().getTraduccion().equals("")) {
-                    this.codigoTraducido += token.getTipoToken().getTraduccion();
-                } else {
-                    this.codigoTraducido += token.getLexema();
+                if (token.getTipoToken() != TipoTokenEnumHTML.ERROR) {
+                    if (!token.getTipoToken().getTraduccion().equals("")) {
+                        this.codigoTraducido += token.getTipoToken().getTraduccion();
+                    } else {
+                        this.codigoTraducido += token.getLexema();
+                    }
                 }
             }
         } catch (IOException e) {

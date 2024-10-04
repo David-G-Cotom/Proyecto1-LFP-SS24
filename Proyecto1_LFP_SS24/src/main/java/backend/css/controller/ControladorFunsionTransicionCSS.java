@@ -34,6 +34,9 @@ public class ControladorFunsionTransicionCSS {
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.PARENTESIS.ordinal()] = EstadoEnumCSS.S30;
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.LLAVE.ordinal()] = EstadoEnumCSS.S30;
         this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.DIAGONAL.ordinal()] = EstadoEnumCSS.S41;
+        this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.CORCHETES.ordinal()] = EstadoEnumCSS.S30;
+        this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.IGUAL.ordinal()] = EstadoEnumCSS.S30;
+        this.matrizEstados[EstadoEnumCSS.S0.ordinal()][AlfabetoEnumCSS.COMILLA_DOBLE.ordinal()] = EstadoEnumCSS.S30;
         
         this.matrizEstados[EstadoEnumCSS.S1.ordinal()][AlfabetoEnumCSS.NUMERO.ordinal()] = EstadoEnumCSS.S2;
         this.matrizEstados[EstadoEnumCSS.S1.ordinal()][AlfabetoEnumCSS.LETRA_MINUSCULA.ordinal()] = EstadoEnumCSS.S1;

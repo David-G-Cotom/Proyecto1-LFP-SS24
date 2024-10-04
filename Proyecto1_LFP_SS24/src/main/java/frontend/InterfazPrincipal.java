@@ -30,9 +30,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private ArrayList<Token> tokensAnalizados;
     private ArrayList<Token> tokensOptimizados;
+    private ArrayList<Token> tokensError;
     private AnalizadorCodigo compilador;
     private final DefaultTableModel modeloTablaTokens;
     private final DefaultTableModel modeloTablaOptimizacion;
+    private final DefaultTableModel modeloTablaErrores;
 
     /**
      * Creates new form InterfazPrincipal
@@ -40,9 +42,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     public InterfazPrincipal() {
         this.modeloTablaTokens = new DefaultTableModel();
         this.modeloTablaOptimizacion = new DefaultTableModel();
+        this.modeloTablaErrores = new DefaultTableModel();
         initComponents();
         this.tokensAnalizados = new ArrayList<>();
         this.tokensOptimizados = new ArrayList<>();
+        this.tokensError = new ArrayList<>();
         this.btnExportar.setEnabled(false);
         this.btnReporteTokens.setEnabled(false);
         this.btnReporteOptimizacion.setEnabled(false);
@@ -68,6 +72,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblReporteOptimizacion = new javax.swing.JTable();
         btnExportarOptimizacion = new javax.swing.JButton();
+        dlgReporteErrores = new javax.swing.JDialog();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblReporteErrores = new javax.swing.JTable();
         btnCarga = new javax.swing.JButton();
         btnTraducir = new javax.swing.JButton();
         btnExportar = new javax.swing.JButton();
@@ -197,6 +204,52 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addContainerGap(66, Short.MAX_VALUE))
         );
 
+        dlgReporteErrores.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        dlgReporteErrores.setTitle("Reporte de Errores");
+        dlgReporteErrores.setMinimumSize(new java.awt.Dimension(900, 300));
+
+        tblReporteErrores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Token", "Lenguaje donde se Encontro", "Lenguaje Sugerido", "Fila", "Columna"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tblReporteErrores);
+        if (tblReporteErrores.getColumnModel().getColumnCount() > 0) {
+            tblReporteErrores.getColumnModel().getColumn(3).setPreferredWidth(20);
+            tblReporteErrores.getColumnModel().getColumn(4).setPreferredWidth(20);
+        }
+
+        javax.swing.GroupLayout dlgReporteErroresLayout = new javax.swing.GroupLayout(dlgReporteErrores.getContentPane());
+        dlgReporteErrores.getContentPane().setLayout(dlgReporteErroresLayout);
+        dlgReporteErroresLayout.setHorizontalGroup(
+            dlgReporteErroresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dlgReporteErroresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        dlgReporteErroresLayout.setVerticalGroup(
+            dlgReporteErroresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dlgReporteErroresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnCarga.setText("Cargar Archivo");
@@ -235,6 +288,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         });
 
         btnReporteErrores.setText("Reporte de Errores");
+        btnReporteErrores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteErroresActionPerformed(evt);
+            }
+        });
 
         txaCodigo.setColumns(20);
         txaCodigo.setRows(5);
@@ -316,6 +374,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         compilador.analizarCodigoFuente(codigoOptimizado);
         this.tokensAnalizados = this.compilador.getTokensAnalizados();
         this.tokensOptimizados = this.compilador.getTokensOptimizados();
+        this.tokensError = this.compilador.getTokensError();
         this.txaCompilado.setText(compilador.getCodigoCompilado());
         this.btnExportar.setEnabled(true);
         this.btnReporteTokens.setEnabled(true);
@@ -357,6 +416,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         reporteOptimizacion.exportarReporteTokens();
     }//GEN-LAST:event_btnExportarOptimizacionActionPerformed
 
+    private void btnReporteErroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteErroresActionPerformed
+        vaciarTablaErrores();
+        llenarTablaErrores();
+        this.dlgReporteErrores.setVisible(true);
+        this.dlgReporteErrores.setLocationRelativeTo(this);
+    }//GEN-LAST:event_btnReporteErroresActionPerformed
+
     /**
      * Metodo que le da a la Tabla de Reporte en la interfaz el modelo adecuado
      * para su visualizacion
@@ -377,6 +443,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         this.modeloTablaOptimizacion.addColumn("Tipo");
         this.modeloTablaOptimizacion.addColumn("Fila");
         this.modeloTablaOptimizacion.addColumn("Columna");
+        
+        this.tblReporteErrores.setModel(modeloTablaErrores);
+        this.modeloTablaErrores.addColumn("Token");
+        this.modeloTablaErrores.addColumn("Lenguaje donde se Encontro");
+        this.modeloTablaErrores.addColumn("Lenguaje Sugerido");
+        this.modeloTablaErrores.addColumn("Fila");
+        this.modeloTablaErrores.addColumn("Columna");
     }
 
     /**
@@ -389,7 +462,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         this.tblReporteTokens.setModel(modeloTablaTokens);
         Object[] fila;
         for (int i = 0; i < this.tokensAnalizados.size(); i++) {
-            fila = new Object[7];
+            fila = new Object[6];
             fila[0] = this.tokensAnalizados.get(i).getLexema();
             switch (this.tokensAnalizados.get(i)) {
                 case TokenEstado token -> {
@@ -431,7 +504,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         this.tblReporteOptimizacion.setModel(modeloTablaOptimizacion);
         Object[] fila;
         for (int i = 0; i < this.tokensOptimizados.size(); i++) {
-            fila = new Object[7];
+            fila = new Object[6];
             fila[0] = this.tokensOptimizados.get(i).getLexema();
             switch (this.tokensOptimizados.get(i)) {
                 case TokenEstado token -> {
@@ -462,6 +535,40 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             this.modeloTablaOptimizacion.addRow(fila);
         }
     }
+    
+    /**
+     * Metodo que muestra en la Tabla de Reporte en la interfaz los datos de
+     * cada Token que esta se encontro en el analisis
+     *
+     * @param datos son los datos de cada token registrados
+     */
+    private void llenarTablaErrores() {
+        this.tblReporteErrores.setModel(modeloTablaErrores);
+        Object[] fila;
+        for (int i = 0; i < this.tokensError.size(); i++) {
+            fila = new Object[5];
+            fila[0] = this.tokensError.get(i).getLexema();
+            switch (this.tokensError.get(i)) {
+                case TokenEstado token -> {
+                    fila[1] = token.getLENGUAJE();
+                }
+                case TokenHTML token -> {
+                    fila[1] = token.getLENGUAJE();
+                }
+                case TokenCSS token -> {
+                    fila[1] = token.getLENGUAJE();
+                }
+                case TokenJS token -> {
+                    fila[1] = token.getLENGUAJE();
+                }
+                default -> {
+                }
+            }
+            fila[3] = this.tokensError.get(i).getLinea();
+            fila[4] = this.tokensError.get(i).getColumna();
+            this.modeloTablaErrores.addRow(fila);
+        }
+    }
 
     /**
      * Metodo que limpia la Tabla de Reporte en la Interfaz para no tener
@@ -490,6 +597,20 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         }
     }
+    
+    /**
+     * Metodo que limpia la Tabla de Reporte en la Interfaz para no tener
+     * problemas de colapsos
+     */
+    private void vaciarTablaErrores() {
+        this.tblReporteErrores.removeAll();
+        int filasTabla = this.modeloTablaErrores.getRowCount();
+        if (filasTabla != 0) {
+            for (int i = 0; i < filasTabla; i++) {
+                this.modeloTablaErrores.removeRow(0);
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCarga;
@@ -500,6 +621,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnReporteOptimizacion;
     private javax.swing.JButton btnReporteTokens;
     private javax.swing.JButton btnTraducir;
+    private javax.swing.JDialog dlgReporteErrores;
     private javax.swing.JDialog dlgReporteOptimizacion;
     private javax.swing.JDialog dlgReporteTokens;
     private javax.swing.JFileChooser jFileChooser1;
@@ -507,6 +629,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable tblReporteErrores;
     private javax.swing.JTable tblReporteOptimizacion;
     private javax.swing.JTable tblReporteTokens;
     private javax.swing.JTextArea txaCodigo;

@@ -25,7 +25,8 @@ public class AnalizadorLexicoJS {
     private final ControladorAlfabetoJS alfabetoController;
     private StringBuilder palabraTemporal;
     private final ControladorEstadoAceptacionJS estadoAceptacion;
-    private ArrayList<TokenJS> tokensAnalizados;    
+    private ArrayList<TokenJS> tokensAnalizados;
+    private String codigoTraducido = "";
 
     public AnalizadorLexicoJS() {
         this.funsionTransicion = new ControladorFunsionTransicionJS();
@@ -50,6 +51,14 @@ public class AnalizadorLexicoJS {
     public void setColumna(int columna) {
         this.columna = columna;
     }
+
+    public String getCodigoTraducido() {
+        return codigoTraducido;
+    }
+
+    public void setCodigoTraducido(String codigoTraducido) {
+        this.codigoTraducido = codigoTraducido;
+    }
     
     public void leerContenido(String contenido) {
         this.contenido = new String(contenido.getBytes());
@@ -61,7 +70,7 @@ public class AnalizadorLexicoJS {
         if (!isContenidoLeido) {
             throw new IOException();
         }
-        this.ignorarEspaciosBlanco();;
+        this.ignorarEspaciosBlanco();
         return this.posicionContenido >= this.contenido.length();
     }
     
@@ -71,11 +80,13 @@ public class AnalizadorLexicoJS {
                 this.posicionContenido++;
                 this.linea++;
                 this.columna = 0;
+                this.codigoTraducido += "\n";
                 continue;
             }
             if (this.alfabetoController.isEspacioBlanco(this.contenido.charAt(this.posicionContenido))) {
                 this.posicionContenido++;
                 this.columna++;
+                this.codigoTraducido += " ";
                 continue;
             }
             break;
@@ -100,6 +111,7 @@ public class AnalizadorLexicoJS {
             charActual = contenido.charAt(this.posicionContenido);
             //System.out.println("Caracter Actual: " + charActual);
             if (charActual == '\r') {
+                this.codigoTraducido += "\r";
                 break;
             }
             alfabetoSimbolo = this.alfabetoController.getAlfabeto(charActual);
@@ -113,6 +125,7 @@ public class AnalizadorLexicoJS {
             this.posicionContenido++;
             this.palabraTemporal.append(charActual);
             if (alfabetoSimbolo == AlfabetoEnumJS.NUEVA_LINEA) {
+                this.codigoTraducido += "\n";
                 this.linea++;
             }
             if (estadoTemporal.equals(EstadoEnumJS.SE)) {
@@ -146,34 +159,17 @@ public class AnalizadorLexicoJS {
     }
     
     private TipoTokenEnumJS revisarBooleano(String palabra) {
-        switch (palabra.toLowerCase()) {
-            case "true":
-            case "false":
-                return TipoTokenEnumJS.BOOLEANO;
-            default:
-                return null;
-        }
+        return switch (palabra.toLowerCase()) {
+            case "true", "false" -> TipoTokenEnumJS.BOOLEANO;
+            default -> null;
+        };
     }
     
     private TipoTokenEnumJS revisarPalabraReservada(String palabra) {
-        switch (palabra.toLowerCase()) {
-            case "function":
-            case "const":
-            case "let":
-            case "document":
-            case "event":
-            case "alert":
-            case "for":
-            case "while":
-            case "if":
-            case "else":
-            case "return":
-            case "console.log":
-            case "null":
-                return TipoTokenEnumJS.PALABRA_RESERVADA;
-            default:
-                return null;
-        }
+        return switch (palabra.toLowerCase()) {
+            case "function", "const", "let", "document", "event", "alert", "for", "while", "if", "else", "return", "console.log", "null" -> TipoTokenEnumJS.PALABRA_RESERVADA;
+            default -> null;
+        };
     }
     
     public ArrayList<TokenJS> getTokens(String contenido) {
@@ -184,6 +180,10 @@ public class AnalizadorLexicoJS {
                 TokenJS token = this.getToken();
                 this.tokensAnalizados.add(token);
                 System.out.println(token);
+                if (token.getTipoToken() != TipoTokenEnumJS.ERROR) {
+                    this.codigoTraducido += token.getLexema();
+                    
+                }
             }
         } catch (IOException e) {
             System.out.println("----------------ERROR---------------------");
