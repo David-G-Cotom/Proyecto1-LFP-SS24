@@ -305,7 +305,8 @@ public class AnalizadorLexicoHTML {
                 tokenNuevo.setTipoToken(TipoTokenEnumHTML.ERROR);
             } else if (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() == TipoTokenEnumHTML.APERTURA) {  //<class
                 tokenNuevo.setTipoToken(TipoTokenEnumHTML.ERROR);
-            } else if (tokensLeidos.get(tokensLeidos.size() - 2).getTipoToken() == TipoTokenEnumHTML.DIAGONAL
+            } else if (tokensLeidos.size() >= 2
+                    && tokensLeidos.get(tokensLeidos.size() - 2).getTipoToken() == TipoTokenEnumHTML.DIAGONAL
                     && (tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnumHTML.ETIQUETA_TITULO
                     && tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnumHTML.ETIQUETA_AREA
                     && tokensLeidos.get(tokensLeidos.size() - 1).getTipoToken() != TipoTokenEnumHTML.ETIQUETA_ENTRADA)) {

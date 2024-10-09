@@ -432,15 +432,32 @@ public class AnalizadorCodigo {
         ArrayList<Character> content = new ArrayList<>();
         char charActual;
         int positionApertura = 0;
+        boolean isBlockHTML = false;
+        StringBuilder contenidoTemporal = new StringBuilder();
         while (contentPosition < code.length()) {
             charActual = code.charAt(contentPosition);
             contentPosition++;
+            if (charActual == '\r' || charActual == '\n' || charActual == ' ') {
+                content.add(charActual);
+                contenidoTemporal = new StringBuilder();
+                continue;
+            }
+            contenidoTemporal.append(charActual);
+            if (contenidoTemporal.toString().equalsIgnoreCase(">>[html]")) {
+                isBlockHTML = true;
+            }
             switch (charActual) {
                 case '<' -> {
                     positionApertura = contentPosition;
                     content.add(charActual);
                 }
-                case '/' -> content.add(positionApertura, charActual);
+                case '/' -> {
+                    if (positionApertura != 0 && isBlockHTML) {
+                        content.add(positionApertura, charActual);
+                    } else {
+                        content.add(charActual);
+                    }
+                }
                 default -> content.add(charActual);
             }
         }
